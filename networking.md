@@ -142,9 +142,98 @@
     switch(config-if)# switchport port security maximum 1
     switch(config-if)# switchport port security violation shutdown
 
-    
+ ## Describing MAC addressing
      
 ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/694d62a5-9f3c-497e-ace1-871ba8e8edea)
+
+
+     Length: 48-bit | 6 byte | 12 hex
+     Format:
+      - Windows: 01-23-45-12-34-56
+      - unix/linux: 01:23:45:12:34:56
+      - cisco: 1234.5612.3456
+     Parts:
+      OUI- First 24 bits assigned by IANA (first 3 bytes)
+      Vendor Assigned - last 24-bits assigned by vendor (last 3 bytes)
+
+      Mac address Types:
+      unicast: one to one
+       8th bit is off
+      Multicast: one to many
+       8th bit is on
+      Broadcast: one to all
+       all bits on
+
+   ## MAC Spoofing
+
+      Could not be changed at first
+      used to be called:
+       hardware
+       firmware
+       burned-in
+      now macs can be changed w/ software
+
+  ## 1.3.5 Analyze 802.3 frame headers
+
+      ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/ed17ceaf-e0ab-4acc-b98b-d08c934330c2)
+
+
+  ## 1.3.7 Describe an 802.1Q virtual local area network (VLAN) frame and how its frames differ from a standard 802.3 frame
+     
+     ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/d032ce51-32c7-47a8-b77f-4e345282b232)
+
+
+ ## VLAN Types
+
+    Default - VLAN 1
+    data - user traffic
+    voice - VOIP traffic
+    management - switch and router management
+    native - untagged switch and router traffic
+
+  ## 1.3.7.4 Describe an 802.1AD Double Tagging VLANs
+
+
+     ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/54fa08f7-94e2-4b12-8e2b-a9a882bae0d1)
+
+     Double header if you have a VLAN on your private network (so two VLANs don't interfere with each other)
+     "0x88A8" is the double dagged VLAN header
+
+   ## 1.3.7.5 Describe VLANS and Security vulnerabilities
+
+      VLAN hopping attack - VLAN hopping is an exploit method of attacking networked devices on separate virtual LAN (VLAN) without traversing a router or other Layer 3 device. The concept behind VLAN hopping attacks is for the attacker on one VLAN to gain access to traffic on other VLANs that would normally not be accessible. Keep in mind that VLAN hopping is typically a one-way attack. It will not be possible to get any response from the target device unless methods are setup on the target to respond with similar vlan hopping methods.
+
+  ## 1.3.8 Describe the address resolution protocol (ARP)
+
+     The Address Resolution Protocol (ARP) is a networking protocol used to map an IP address to a MAC address within a local network segment. ARP operates at the Data Link Layer (Layer 2) of the OSI model and is essential for communication between devices on the same network.
+     
+     ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/9dcadc63-05fd-4269-8818-5a0fb2fcae36)
+
+
+     ARP Types - 1 = request, 2 = reply, 3 = RARP request, 4 = RARP reply
+     ARP (OP 1 and 2)
+     RARP (OP 3 and 4)
+     Proxy ARP (OP 2)
+     Gratuitous ARP (OP 2)
+
+    Proxy ARP - A device (router) answers the ARP queries for IP address that is on a different network.
+
+    
+     
+
+       
+     
+
+
+
+
+    
+  
+
+      
+
+
+     
 
 
 
