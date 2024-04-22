@@ -420,6 +420,198 @@ https://net.cybbh.io/public/networking/latest/02_network/fg.html
  ## IPV6 PACKET HEADER
  ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/042375b1-3c2e-497a-bee4-f0124fb8d3ab)
 
+        ipv6 address types:
+          -unicast
+          -multicast
+          -anycast
+
+          ipv6 address scopes:
+          - global unicast addresses (2000::/3)
+          - unique local (fc00::/7)
+          - loopback (::1/128)
+
+          ipv6 zero configuration (link-local)
+          hosts generate link-local prefix (FE80::/8)
+          interface id can be 
+           - random (windows default)
+           - EUI64 (nix and cisco default)
+           hosts requests global prefix 
+           - SLAAC (RFC 4862) (default)
+           - dhcpv6 (configured)
+
+
+ ## 2.1.2.8 Explain Neighbor Discovery Protocol (NDP)
+
+      - router solicitation (type 133)
+      - router advertisement (type 134)
+      - neighbor solicitation (type 135)
+      - neighbor advertisement (type 136)
+      - redirect (type 137)
+
+ ## 2.2 Analyze Internetwork Routing
+ ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/f89b400c-4c78-4b6f-ada8-cb58b48edbd5)
+
+       
+## 2.2.1 Discuss Routing Tables
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/30b86da4-40e1-4386-8dad-298b0d2bc98e)
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/a6269876-d340-48ce-9928-fc96fc67187a)
+
+        Metrics:
+        - rip: hop
+        - EIGRP: bandwidth, delay, load, reliability
+        - OSPF: cost
+        - BGP: policy
+
+ ## 2.2.2.1 Classful vs Classless
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/fc1d1db0-f803-4b73-848a-41e129ab57b7)
+
+       Classful routing protocols (RIPv1 and IGRP) do not send subnet mask information with their routing updates.
+       Classless routing protocols (RIPv2, EIGRP, OSPF, and IS-IS) support VLSM and CIDR which include the subnet mask information in their routing updates; classful protocols do not.
+       IPv6 routing protocols are all considered classless.
+
+  ## Routed vs. Routing protocols
+  ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/179cee50-becb-401f-8b72-7c65cce1fb9e)
+
+       Routed protocols allows data to be routed. These protocols provide an addressing scheme and sub-netting. The addressing scheme identifies the individual host and the network to which it belongs. Each host address must be unique. All hosts on an internetwork must use the services of a routed protocol to communicate.
+       ex: ipv4, ipv6 etc.
+
+       Routing Protocols are used by routers to communicate routing information with each other. Unless all routes are manually entered into the router, the router needs to learn from other routers about the networks that they know. They use this shared information to populate their routing tables so that they can make better decisions when forwarding routed protocols such as IPv4.
+       ex:
+       
+       interior Gateway Protocol (IGP) - is a type of protocol used for exchanging routing information between gateways (commonly routers) within an autonomous system
+       such as: RIP, EIGRP, OSPF, IS-IS
+
+       Exterior Gateway Protocol (EGP) - is a routing protocol used to exchange routing information between autonomous systems - BGP
+       
+## 2.2.2.3 IGP vs EGP
+        Interior Gateway Protocols (IGP):
+        Routing protocols that are used within an Autonomous System (AS).
+          Referred to as intra-AS routing.
+          Organizations and service providers IGPs on their internal networks.
+          IGPs include RIP, EIGRP, OSPF, and IS-IS.
+
+          Exterior Gateway Protocols (EGP):
+           Used primarily for routing between autonomous systems.
+           Referred to as inter-AS routing.
+           Service providers and large companies will interconnect their AS using an EGP.
+           The Border Gateway Protocol (BGP) is the only currently viable EGP and is the official routing protocol used by the Internet.
+
+
+## 2.2.2.4 Autonomous Systems
+         collection of connected internet protocol routing prefixes under the control of one or more network operators on behalf of a single administrative entity or domain, that presents a common and clearly defined routing policy to the internet.
+
+
+## 2.2.2.5 Distance Vector Routing Protocols
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/aa1df7be-c753-4247-bf16-2f3cf2e62d87)
+
+     Distance: This identifies how far away the destination network is from the router and is based on a metric such as the hop count, cost, bandwidth, delay, and more. It takes the learned distance from their neighbor, adds the distance to their neighbor, and this gives them a total distance.
+     Vector: This specifies the direction to the remote network. The router advertises a path that it has learned which allows access to a remote network via one of its interfaces.
+     RIP and EIGRP are distance vector routing protocols.
+
+## link state routing protocols
+
+    Link state routing protocols tend to flood the network with Link State Advertisements (LSAs). Each router receives these updates and begins to build a map of the entire network. It will use its algorithms to compute the best routes from this map to all remote networks. After this is done no periodic updates are sent unless there is a change in the topology.
+    OSPF and IS-IS are link state
+
+  ## 2.2.3.1 Static Routing
+  ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/e1ebb4cd-1a91-473f-ab38-cf737d97d1de)
+
+       Static routing provides some advantages over dynamic routing, including:
+    Static routes do not advertise over the network, resulting in better security.
+    Static routes do not use bandwidth like dynamic routing protocols to send updates and no CPU cycles are used to calculate and communicate routes.
+    The path a static route uses to send data is predetermined.
+
+    Static routing has the following disadvantages:
+    Initial configuration and maintenance is time-consuming.
+    Configuration is prone to error, especially on large networks.
+    Administrator must intervene to update routing information or to bypass network faults.
+    Does not scale well with growing networks; maintenance becomes cumbersome.
+    Requires complete knowledge of the whole network for proper implementation.
+
+  ## 2.2.3.2 Dynamic Routing
+  ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/01b29d54-e5b2-4c13-84e5-ab722be7883e)
+
+
+     Routing protocols allow routers to dynamically exchange routing information to build routing tables. If 2 or more routers share the same protocol they can communicate with each other. The purpose of dynamic routing protocols includes:
+
+     Discover new remote networks
+     Maintaining current routing information
+     Choose best path to remote networks
+     Recalculate a new path to a remote network should the primary fail
+
+    Dynamic routing provides some advantages over static routing, including:
+    Easier to configure and maintain.
+    Administrator does not need to intervene to update tables during network outages.
+    Scales very well on growing networks.
+
+     Dynamic routing has the following disadvantages:
+    Routing protocols flood the network updates which consumes bandwidth and can be intercepted.
+    Uses extensive CPU and RAM to run its algorithms and build its databases.
+    Path data can travel is not deterministic and can change fluidly.
+
+## 2.2.4 Understand First Hop Redundancy Protocols and their vulnerabilities
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/1e29ffc9-2f24-48df-9cc3-02f08ca1cafa)
+
+
+      Hot Standby Router Protocol (HSRP)
+
+    A Cisco-proprietary FHRP designed to allow for transparent fail-over of IPv4 networks.
+    One router interface will be set as "active" and the others set as "standby".
+    Once the active interface will forward traffic to other networks.
+    Standby interfaces serve as backups in case the active fails.
+    Active interface sends multicast "Hello" packets to inform the backups that its still operational.
+
+    Virtual Router Redundancy Protocol version 2 (VRRPv2)
+
+    An industry-standard protocol defined in RFC 3768 that offers similar functionality to HSRP.
+    Like HSRP, VRRP allows multiple routers to work together to provide redundancy for the default gateway.
+    One router is elected as the master router, and the others are backup routers.
+    The master router sends periodic advertisements to inform the backup routers of its status.
+    If the master router fails, one of the backup routers is elected as the new master.
+
+
+    Gateway Load Balancing Protocol (GLBP)
+
+    GLBP is another Cisco proprietary protocol that extends the functionality of HSRP and VRRP by providing load balancing in addition to redundancy.
+    GLBP allows multiple routers to share the traffic load for a virtual IP address, providing both redundancy and increased network capacity.
+    GLBP uses an active virtual gateway (AVG) to assign different virtual MAC addresses to different routers, distributing traffic across multiple gateways.
+
+
+    HSRP Attack:
+
+    Routers must exchange HSRP hello packets at the default interval of three seconds. Packets are sent using the multicast address of 224.0.0.2 (the "all routers" IPv4 multicast address). Since multicasts are flooded over the network similar to Broadcasts, they can be intercepted by any host with layer two connectivity and can inspect the HSRP parameters.
+    To usurp the active router, the attacker only needs to inject false HSRP hellos claiming the active role with a higher priority.
+
+
+  
+
+
+    
+
+
+     
+
+
+     
+
+
+  
+
+
+      
+    
+  
+
+
+
+     
+
+
+
+
+   
+
+           
   
 
  
