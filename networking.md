@@ -217,6 +217,143 @@
      Gratuitous ARP (OP 2)
 
     Proxy ARP - A device (router) answers the ARP queries for IP address that is on a different network.
+    Gratuitous ARP - An ARP reply that was not requested.
+
+    ARP Cache - is a collection of Layer 2 to Layer 3 address mappings discovered utilizing the ARP request/response process. When a host needs to send a packet both the L2 and L3 addresses are needed. The host will look in this table to determine if it already knows both the L2 and L3 addresses. If the target is not in the table then a ARP request is initiated. The ARP cache can be populated statically but mostly its done dynamically. This cache can be exploited by attackers with the aim to poison the cache with incorrect information to either perform a DoS or MitM.
+
+    MITM WITH ARP
+
+    Poison ARP cache with:
+      - gratuitous ARP
+      - proxy ARP
+
+   ## 1.3.10 Explain VTP with its vulnerabilities
+
+   ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/9172396f-5613-471e-80db-322529074ede)
+
+    VLAN Trunking Protocol (VTP) is a Cisco proprietary protocol that propagates the definition of Virtual Local Area Networks (VLAN) on the whole local area network. VLAN Trunk Protocol (VTP) was developed to help reduce the administration of creating VLANs on all switches within a switched network. To do this, VTP sends VLAN information to all the switches in a VTP domain.
+
+    VTP modes = server & client
+    VTP vulnerability 
+    - can cause switches to dump all VLAN information
+    - cause a DoS as switch will not support configured VLANS
+
+ ## DTP with vulnerabilities
+
+    The Dynamic Trunking Protocol (DTP) is a Cisco proprietary Layer 2 protocol. Its purpose is to dynamically negotiate trunking on a link between two switches running VLANS. It can also negotiate the type of trunking protocol to be used on the link (802.1q or ISL). DTP works by exchanging small DTP frames between two supporting devices to negotiate the link parameters.
+
+  ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/88f2cb43-369b-4444-b6a8-15070c003537)
+
+    vulnerabilities
+    - on by default
+    - can send crafted messages to form a VLAN trunk link
+    - recommend to:
+     disable DTP negotiations
+     manually assign as access or trunk
+
+  ## CDP, FDP, and LLDP
+
+     Cisco Discovery Protocol (CDP) is a Layer 2, Cisco proprietary protocol used to share information with other directly connected Cisco devices. CDP is protocol and media independent and runs on all Cisco routers, switches, and other devices.
+
+    CDP Shares information such as:
+      Type of device
+      Hostname
+      Number and type of interface
+      IP address
+      IOS software version
+
+      Foundry discovery protocol (FDP)
+      Link Layer Discovery Protocol (LLDP)
+
+
+      vulnerabilities 
+       - leaks valuable information
+       - clear text
+       - enabled by default 
+       - disable it:
+         - globally
+         - per interface
+         * may require it for voice *
+         
+
+
+ ## 1.3.13 Explain STP with its vulnerabilities
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/e65da86a-1183-45bd-9c51-101d1ce38113)
+
+    STP is a Layer 2 protocol that builds a loop-free logical topology for Ethernet networks in a network that physically has loops. The basic function of STP is to prevent switching loops and the broadcast storms that can result. Spanning tree allows a network design to include physical "backup links" to provide fault tolerance if the active link fails.
+
+## 1.3.14 Explain Port Security with its vulnerabilities
+
+    The purpose of configuring port security technologies is to limit, restrict, and protect network access. Configuring port security can be done on active access ports to limit the number of users or MAC addresses allowed to access onto the network. This will help to alleviate attacks such as DoS, MAC Address Flooding, and most unauthorized access.
+
+    port security modes
+     protect - Drops any frames with an unknown source addresses.
+     restrict - Same as protect except it additionally creates a violation counter report.
+     shutdown - Places the interface into an "error-disabled" state immediately and sends an SNMP trap notification. This is typically the default mode.
+
+     port security can help to
+      - restrict unauthorized access
+      - limit mac address learned on port
+      - prevent cam table overflow attacks
+
+    port security vulnerabilities:
+     - dependant on MAC address
+     - MAC spoofing
+
+  ## 1.3.15 Layer 2 Attack mitigation techniques
+
+     -shutdown unused ports
+     - enable port security
+     - IP source guard
+     - manually assign STP root
+     - BPDU guard
+     - DHCP snoopinng
+      Static CAM entries - Static CAM (Content Addressable Memory) entries refer to manually configured entries in the CAM table of Ethernet switches. These entries map specific MAC addresses to specific switch ports and are used to optimize network performance and facilitate specific network configurations.
+      Static ARP entries - Static ARP (Address Resolution Protocol) entries are manually configured mappings between IP addresses and MAC addresses in the ARP table of network devices. These entries are used to ensure stable communication between specific devices on the network.
+
+  ## DESCRIBE IP NETWORKING
+
+      Network layer 
+       - addressing schemes for network (logical addressing)
+       - routing
+       - encapsulation
+       - IP fragmentation and reassembly
+       - error handling and diagnostics
+
+       internet protocol versions
+       IPV4 (ARPANET 1982)
+        - classful subnetting
+        - classless subnetting (CIDR)
+        - NAT
+        - ipv6 standardized 2017
+
+        Class A(0-127)
+        Class B(129-191)
+        Class C(192-223)
+        Class D(224-239) - multicasting
+        Class E(240-255) not used
+
+        
+## 2.1.1.2 Analyze IPv4 packet header
+https://net.cybbh.io/public/networking/latest/02_network/fg.html
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/254bca6a-0c51-4974-aae5-572a8098e6ca)
+
+
+     
+
+        
+      
+     
+    
+ 
+
+    
+
+    
+
+
+   
+     
 
     
      
