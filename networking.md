@@ -175,12 +175,12 @@
 
   ## 1.3.5 Analyze 802.3 frame headers
 
-      ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/ed17ceaf-e0ab-4acc-b98b-d08c934330c2)
+  ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/ed17ceaf-e0ab-4acc-b98b-d08c934330c2)
 
 
   ## 1.3.7 Describe an 802.1Q virtual local area network (VLAN) frame and how its frames differ from a standard 802.3 frame
      
-     ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/d032ce51-32c7-47a8-b77f-4e345282b232)
+  ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/d032ce51-32c7-47a8-b77f-4e345282b232)
 
 
  ## VLAN Types
@@ -194,7 +194,7 @@
   ## 1.3.7.4 Describe an 802.1AD Double Tagging VLANs
 
 
-     ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/54fa08f7-94e2-4b12-8e2b-a9a882bae0d1)
+  ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/54fa08f7-94e2-4b12-8e2b-a9a882bae0d1)
 
      Double header if you have a VLAN on your private network (so two VLANs don't interfere with each other)
      "0x88A8" is the double dagged VLAN header
@@ -207,7 +207,7 @@
 
      The Address Resolution Protocol (ARP) is a networking protocol used to map an IP address to a MAC address within a local network segment. ARP operates at the Data Link Layer (Layer 2) of the OSI model and is essential for communication between devices on the same network.
      
-     ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/9dcadc63-05fd-4269-8818-5a0fb2fcae36)
+  ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/9dcadc63-05fd-4269-8818-5a0fb2fcae36)
 
 
      ARP Types - 1 = request, 2 = reply, 3 = RARP request, 4 = RARP reply
