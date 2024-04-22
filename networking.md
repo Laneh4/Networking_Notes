@@ -338,7 +338,98 @@
 https://net.cybbh.io/public/networking/latest/02_network/fg.html
 ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/254bca6a-0c51-4974-aae5-572a8098e6ca)
 
+## IPV4 ADDRESS SCOPES
 
+     - Public
+     - private
+     - loopback (127.0.0..0/8)
+     - link-local (APIPA)
+     - multicast (class D)
+
+## 2.1.1.4 Explain Fragmentation with it’s vulnerability
+
+    breaking up packets from higher MTU to lower MTU network
+    - performed by routers
+    - MF flag is on from 1st until 2nd to last
+    - offset is on from 2nd until the last
+    - offset = (MTU-(IHLx4)) / 8       ** fragment offset **
+    
+## IPv6 Fragmentation
+
+    - ipv6 does not support fragmentation within its header
+    - routers do not fragment ipv6 packets
+    - source adjusts mtu to avoid fragmentation
+    - source can use ipv6 fragmentation extension header
+
+## fragmentation vulnerabilities
+
+    - 
+
+## OS fingerprinting with TTL
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/fa1af698-b7e3-49b0-8e83-bbc9b871cdf9)
+
+## 2.1.1.6 Explain IPv4 Auto Configuration with vulnerability
+
+    vulnerabilities - 
+      - rogue DHCP
+      - evil twin
+      - DHCP starvation
+      
+## 2.1.1.7 Analyze ICMPv4 protocol and header structure
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/cbe2de12-253a-42de-a8b5-f059aab643cc)
+
+    icmpv4 os fingerprinting
+     linux - 
+      default size: 64 byes
+      payload message: !\”#\$%&\‘()*+,-./01234567
+     Windows - 
+      Default size: 48 bytes (16 byte ICMP header + 32 byte payload)
+      Payload message: abcdefghijklmnopqrstuvwabcdefghi
+
+      ICMP
+      - identifies hops between the source and destination
+      - uses incrementing TTLs
+      - hops return an icmp type 11 time exceeded message when TTL reaches 0
+      - continues until it reaches target or 30 hops
+
+      ICMPV4 traceroute
+      - can use various protocols and ports
+       - icmp (windows default)
+       - udp (linux default)
+       - tcp
+
+       ICMPv4 attacks
+        - firewalking (traceroute)
+        - oversized ICMP messages
+        - ICMP redirects
+        - SMURF attack
+        - map network w/ ip unreachables
+        - ICMP covert channels: Many networks allow ICMP traffic in and out of their networks. Malicious actors can disguise communication channels as ICMP traffic. This traffic will have typical ICMP headers but the payload will greatly vary depending on the type of traffic encapsulated.
+
+ ## 2.1.2 Explain IPv6 Addressing
+
+        128 bit addresses
+        64-bit prefix (4 hextets)
+        64-bit interface ID (4 hextets)
+        340 undecillian addresses
+
+        - organizations assigned a 48-bit prefix by IANA
+        - last 16 bits of prefix used for subnetting
+        
+        
+ ## IPV6 PACKET HEADER
+ ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/042375b1-3c2e-497a-bee4-f0124fb8d3ab)
+
+  
+
+ 
+        
+      
+  
+
+
+
+    
      
 
         
