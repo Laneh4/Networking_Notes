@@ -4,6 +4,7 @@
     https://miro.com/app/board/o9J_klSqCSY=/
     http://networking-ctfd-2.server.vta:8000/
     Blue internet host ssh student@10.50.31.246 -X
+    student12
 
 ## Network Access
     https://net.cybbh.io/public/networking/latest/01_data/fg.html
@@ -582,6 +583,8 @@ https://net.cybbh.io/public/networking/latest/02_network/fg.html
 
     Routers must exchange HSRP hello packets at the default interval of three seconds. Packets are sent using the multicast address of 224.0.0.2 (the "all routers" IPv4 multicast address). Since multicasts are flooded over the network similar to Broadcasts, they can be intercepted by any host with layer two connectivity and can inspect the HSRP parameters.
     To usurp the active router, the attacker only needs to inject false HSRP hellos claiming the active role with a higher priority.
+
+    
 
 
   
