@@ -748,7 +748,231 @@ https://net.cybbh.io/public/networking/latest/03_transport/fg.html
       
       Restart the SSH Service
       systemctl restart ssh
-         
+
+
+ ## 3.4.3 Analyze Hypertext Transfer Protocol (Secure) (HTTP(s))
+ ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/5ac9b1e4-b04d-4d1e-8386-9936837f1d1b)
+
+       HTTP(S) (TCP 80/443)
+       User Request methods
+           GET / HEAD / POST / PUT
+       Server response Codes
+           100, 200, 300, 400, 500
+
+           HTTPS Vulnerabilities
+           - flooding
+           - amplification
+           - low and slow
+           - drive by downloads
+           -BeEF Framework
+
+## 3.4.4 Analyze Domain Name System (DNS) protocol
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/4bc271f0-bc0c-4014-a999-a775ada19d44)
+
+
+    DNS (TCP/UDP 53)
+    DNS QUERY/RESPONSE
+    Resolves Names to IP addresses
+    Queries and responses use UDP
+    DNS response larger than 512 bytes use TCP
+    DNS Zone Transfer
+    DNS Security
+
+    DNS RECORDS
+    A - IPv4 record
+    AAAA - IPv6 record
+    MX - Mail Server record
+    TXT - Human-readable text
+    NS - Name Server record
+    SOA - Start of Authority
+
+## 3.4.4.3 Explain DNS architecture
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/f197c6e3-af3a-484e-b3d2-2c9ceee38799)
+
+
+##3.4.5 Analyze File Transfer Protocol (FTP)
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/7348922d-cbcd-41ea-bf05-2169c446bdbc)
+
+     FTP (TCP 20/21)
+     RFC 959
+     Port 21 open for Control
+     Port 20 only open during data transfer
+     
+     Authentication or Anonymous
+     Clear Text
+     Modes:
+       Active (default)
+       Passive
+
+       FTP ACTIVE ISSUES
+       NAT and Firewall traversal issues
+       Complications with tunneling through SSH
+       Passive FTP solves issues related to Active mode and is most often used in modern systems
+
+## 3.4.6 Analyze Trivial File Transfer Protocol (TFTP)
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/387051da-cf2a-43e4-b163-cfdd95c5a33a)
+
+      TFTP (UDP 69)
+      Reliability provided at Application layer
+      Used by routers and switched to transfer IOS and config files
+
+## 3.4.7 Analyze Simple Mail Transfer Protocol (SMTP)
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/c4cf4483-7570-4ba6-a1f6-4a5f38ff5198)
+
+      SMTP (TCP 25)
+      Used to send email
+       No encryption
+       SMTP over TLS/SSL (SMTPS)
+       TCP Ports 587 and 465
+
+## 3.4.8 Analyze  Post Office Protocol (POP)
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/fcb3a5eb-3cd5-4e24-8914-21e045ddb5e6)
+
+      Receives email
+      No sync with server
+      No encryption
+      POP3
+
+## 3.4.9 Analyze Internet Message Access Protocol (IMAP)
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/e5774145-cbb0-44ed-b6e9-89c0740a27ec)
+
+          Receives email
+          Sync with server
+          No encryption
+          IMAP4
+
+## 3.4.10 Analyze Dynamic Host Configuration Protocol (DHCP) version 4 and 6 protocol
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/06c274b4-9b0c-4a32-bad5-daa9e7b7ff1e)
+
+       DHCPV4
+          DORA
+          
+          Discover (Broadcast)
+          Offer (Unicast)
+          Request (Broadcast)
+          Acknowlege (Unicast)
+
+
+        DHCPV6
+          If Managed flag is set during SLAAC:
+          Solicit (Multicast)
+          Advertise (Unicast)
+          Request or Information Request (Multicast)
+          Reply (Unicast)
+
+          DHCP VULNERABILITIES
+          Rogue DHCP
+          Evil Twin
+          DHCP Starvation
+
+ ## 3.4.11 Analyze Network Time Protocol (NTP) and vulnerability
+ ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/1775cd61-fcaf-48b4-8aac-4422cb2c8fa0)
+
+          NTP (UDP 123)
+          Stratum 0 - authoritative time source
+          Up to Stratum 15
+          Vulnerable to crafted packet injection
+
+ ## 3.4.12 Analyze Terminal Access Controller Access-Control System Plus (TACACS+) Protocol
+ ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/d5fad79e-0967-48f3-8647-115af5777829)
+ ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/e3191ba2-52ff-41fd-b4c7-be51775c8a77)
+
+            TACACS (TCP 49) SIMPLE/EXTENDED
+            The Terminal Access Controller Access-Control System Plus (TACACS+) is a network security protocol used for centralized authentication, authorization, and accounting (AAA) services in network devices such as routers, switches, and firewalls. Developed by Cisco Systems, TACACS+ provides a robust framework for controlling access to network resources and enforcing security policies.
+
+ ## 3.4.13 Analyze Remote Authentication Dial-In User Service (RADIUS) protocol
+ ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/c437a114-923a-4066-8b24-58007ed901e6)
+
+        RADIUS/Diameter (UDP 1645/1646 AND 1812/1813)
+        Remote Authentication Dial-In User Service (RADIUS) is a open standard networking protocol used for centralized authentication, authorization, and accounting (AAA) services in network environments. It enables devices like network access servers (NAS), VPN gateways, and wireless access points to authenticate users and authorize their access to network resources.
+
+
+## 3.4.15 Analyze Simple Network Management Protocol (SNMP)
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/9482def2-0776-4d09-89fb-3f1af3d5da84)
+
+        Versions:
+       Version 1 & 2 are plaintext, version 3 is CT
+       SNMPv1 - RFC 1157
+       SNMPv2c - RFC 1441
+       SNMPv3 - RFC 3410
+
+## 3.4.16 Analyze Real-time Transport Protocol (RTP)
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/2b694f87-656b-422f-bb57-2538c3bd4675)
+
+      RTP (UDP any above 1023)
+
+## 3.4.17 Analyze Remote Desktop Protocol (RDP)
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/39c5d25c-63f0-468b-b8d1-876cc3bb53a3)
+
+      RDP (TCP 3389)
+      Developed by Microsoft (Open Standard)
+      No server software needed
+      Other Proprietary RDP software
+      Requires to have 3rd pary software installed
+
+## 3.4.18 Analyze Kerberos
+
+     Secure network authentication protocol
+     Clients obtain tickets to access services
+     Mutual authentication
+     Used by Active Directory
+
+ ## 3.4.19 Analyze Lightweight Directory Access Protocol (LDAP)
+
+     LDAP(S) (TCP 389 AND 636)
+     Client/server model
+     Hierarchical
+     Directory schema
+     Unsecure and secure versions
+ 
+ 
+      
+
+
+      
+
+
+
+
+        
+
+ 
+
+ 
+
+ 
+
+ 
+       
+
+
+ 
+
+
+
+
+
+       
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+     
+
+ 
 
       
 
