@@ -584,6 +584,212 @@ https://net.cybbh.io/public/networking/latest/02_network/fg.html
     Routers must exchange HSRP hello packets at the default interval of three seconds. Packets are sent using the multicast address of 224.0.0.2 (the "all routers" IPv4 multicast address). Since multicasts are flooded over the network similar to Broadcasts, they can be intercepted by any host with layer two connectivity and can inspect the HSRP parameters.
     To usurp the active router, the attacker only needs to inject false HSRP hellos claiming the active role with a higher priority.
 
+
+## Transport layer protocols
+https://net.cybbh.io/public/networking/latest/03_transport/fg.html
+
+    Connection-oriented
+     - TCP segments
+     - unicast traffic
+    Connectionless
+     - udp datagrams
+     - broadcast, multicast, or unicast traffic
+
+     Port ranges 
+     0-1023 well-known 
+     1024-49151 registered
+     49152-65535 dynamic (private)
+
+     TCP reliability
+
+     1. connection establishment
+      1. 3 way handshake
+     2. data transfer
+      1. established phase
+     3. connection termination
+      1. 4 way termination
+      2. reset connection
+     
+ ## 3.1.4.1 TCP Headers
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/01941c9f-3511-44e0-bf19-e91fe82449dd)
+
+    TCP OPTIONS
+    0 - End of Options
+    1 - No Options (NOP)
+    2 - Maximum Segment Size (MSS)
+    3 - TCP Windows Scaling
+    4 - Selective ACK (SACK) Permitted
+    5 - SACK
+    8 - TCP Timestamps
+
+ ## UDP headers
+ ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/bc90bcc0-7bbb-4ced-a356-ca03d1875d71)
+
+## 3.2 Explain OSI Layer 5 protocols and headers
+
+     Layer Two Tunneling Protocol (L2TP) serves as an extension of the Point-to-Point Tunneling Protocol (PPTP) commonly employed by internet service providers (ISPs) to establish virtual private networks (VPNs). The primary objective of L2TP is to enable secure data transmission through the creation of tunnels. To uphold security and privacy standards, L2TP necessitates the use of an encryption protocol within the established tunnel.
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/ec58b169-9a62-44f1-a64c-53b46a15a5fd)
+
+      3.2.1.2 PPTP (TCP 1723
+ ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/becff92c-e589-4fd2-8d6c-0e1c39a7eb6a)
+
+     3.2.1.3 IP Security (IPSec)
+     IPsec (Internet Protocol Security) is a suite of protocols used to secure IP communications by providing encryption, authentication, and integrity protection at the network layer (Layer 3) of the OSI model. It is widely used to establish Virtual Private Networks (VPNs) and secure data transmission over IP networks, including the internet.
+     
+     modes: transport or tunnel
+     Headers: 
+       - ESP (protocol 50)
+       - AH (protocol 51)
+       - IKE (udp port 500 or 4500)
+
+  ## 3.2.1.4 OpenVPN
+     open source
+     uses openSSL for encryption
+     Default UDP port 1194
+
+## 3.2.2.1 Examine SOCKS protocol
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/69c993f8-f683-47c7-91e0-e0eb9915e654)
+
+    RFC 1928
+    - uses various client / server exchange messages 
+    - client can provide authentication to server
+    - client can request connections from server
+
+    SOCKS4
+    - no authentication
+    - only ipv4
+    - no udp support
+    - no proxy binding. client's ip is not relayed to destination
+
+    SOCKS5
+    - various methods of authentication
+    - ipv4 and ipv6 support
+    - udp support
+    - supports proxy binding. client's ip is relayed to destination
+
+    network basic input outut system (netbios) protocol
+     - tcp 139 and udp 137/138
+     - name resolution (15 characters)
+     - largely replaced by DNS
+
+## SMB/CIFS (TCP 445)
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/01716759-bee7-47ac-a950-8dcf45cdf138)
+
+
+    SMB rides over netbios
+    - netbios dgram service -UDP 138
+    - netbios session service -TCP 139
+    - SAMBA and CIFS are just flavors of SMB
+
+## 3.2.5 Examine Remote Procedure Call (RPC) Protocol
+
+     Allows a program to execute a request on a local/remote computer
+     Hides network complexities
+     XML, JSON, SOAP, and gRPC
+     User application will:
+     Request for information from external server
+     Receives the information from the external server
+     Display collected data to User
+
+## 3.2.6 Application Programming Interface (API)
+
+        Framework of rules and protocols for software components to interact.
+        Methods, parameters, and data formats for requests and responses.
+        REST and SOAP
+
+ ## 3.3 Explain OSI Layer 6 functions and responsibilities
+
+    Translation
+    Formating
+    Encoding (ASCII, EBCDIC, HEX, BASE64)
+    Encryption (Symmetric or Asymmetric)
+    Compression
+
+
+## 3.4 Explain OSI Layer 7 protocols and headers
+
+  Telnet (TCP 23)
+  ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/abcb3410-e725-4ee9-8e62-962b2c2bdcac)
+
+       - remote login
+       - authentication
+       - clear text
+       - credentials susceptible to interception
+
+   SSH (TCP 22)
+   ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/0b9c8ffe-d635-4410-93c8-5a3f67494e7a)
+
+         Messages provide:
+       Client/server authentication
+       Asymmetric or PKI for key exchange
+       Symmetric for session
+       User authentication
+       Data stream channeling
+
+       User Key - Asymmetric public key used to identify the user to the server
+
+       Host Key - Asymmetric public key used to identify the server to the user
+
+       Session Key - Symmetric key created by the client and server to protect the session’s communication.
+
+       Known-Hosts Database
+
+      ~/.ssh/known_hosts
+      Configuration Files
+      
+      /etc/ssh/ssh_config
+      /etc/ssh/sshd_config
+
+      To view the current configured SSH port
+      cat /etc/ssh/sshd_config | grep Port
+      
+      Edit file to change the SSH Port
+      sudo nano /etc/ssh/sshd_config
+      
+      Restart the SSH Service
+      systemctl restart ssh
+         
+
+      
+
+    
+
+  
+
+   
+    
+
+
+
+    
+
+
+
+     
+    
+
+
+    
+
+    
+
+     
+    
+
+       
+ 
+
+      
+
+
+
+
+    
+
+
+    
+
+ 
     
 
 
