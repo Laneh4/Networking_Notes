@@ -3,6 +3,7 @@
     https://net.cybbh.io/public/networking/latest/index.html
     https://miro.com/app/board/o9J_klSqCSY=/
     http://networking-ctfd-2.server.vta:8000/
+    Blue internet host ssh student@10.50.31.246 -X
 
 ## Network Access
     https://net.cybbh.io/public/networking/latest/01_data/fg.html
