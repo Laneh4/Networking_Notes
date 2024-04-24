@@ -926,19 +926,232 @@ https://net.cybbh.io/public/networking/latest/03_transport/fg.html
      Unsecure and secure versions
  
  
-      
+## DESCRIBE NETWORK TRAFFIC SNIFFING
+https://net.cybbh.io/public/networking/latest/06_traffic_cap/fg.html
+
+    Libpcap - https://www.tcpdump.org/
+    WinPcap - https://www.winpcap.org/
+    NPcap - https://nmap.org/npcap/
+
+    Practical Uses:
+
+    Network troubleshooting
+    Diagnosing improper routing or switching
+    Identifying port/protocol misconfigurations
+    Monitor networking consumption
+    Intercepting usernames and passwords
+    Intercept and eavesdrop on network communications
+
+    Disadvantages:
+
+    Requires elevate permissions
+    Can only capture what NIC can see
+    Cannot capture local traffic
+    Can consume massive amounts of system resources
+    Lost packets on busy networks
+
+    PACKETS CAN BE CAPTURED IN TWO WAYS:
+    Hardware Packet Sniffers
+    Software Packet Sniffers
+
+    DESCRIBE SOCKET TYPES
+    User Space Sockets
+    Stream socket - TCP
+    Datagram socket - UDP
+    Kernel Space Sockets
+    RAW Sockets -any socket where the kernel has to manipulate the NIC in any way
+
+    CAPTURE LIBRARY
+    Requires root for:
+    Promicious Mode (Listen on all NICs)
+    All captured packets are created as RAW Sockets
+
+    Types of sniffing:
+    **active** - Active sniffing involves actively injecting packets into the network to elicit responses from other devices. Unlike passive sniffing, active sniffing requires the sniffer to send packets to specific destinations and analyze the responses. Active sniffing can be more intrusive and may raise security concerns, but it can also provide more detailed insights into network behavior.
+    **passive** - Passive sniffing involves monitoring network traffic without actively injecting or modifying packets. It typically uses network monitoring tools or packet capture software to capture packets as they traverse the network. Passive sniffing is often used for network troubleshooting, security monitoring, and performance analysis.
+
+    
 
 
-      
+
+ ## EXPLAIN TCPDUMP PRIMITIVES
+ https://net.cybbh.io/public/networking/latest/06_traffic_cap/fg.html
+
+     User friendly capture expressions (if you use primitives with BPF's they might not work)
+
+    src or dst
+    host or net
+    tcp or udp
+
+    TCPDUMP PRIMITIVE QUALIFIERS
+    type - the 'kind of thing' that the id name or number refers to
+    host, net, port, or portrange
+    dir - transfer direction to and/or from
+    src or dst
+    proto - restricts the match to a particular protocol(s)
+    ether, arp, ip, ip6, icmp, tcp, or udp
+
+    BASIC TCPDUMP OPTIONS
+    -A = print payload in ASCII
+    -D = list interfaces
+    -i = specify capture interface
+    -e = print data-link headers
+    -X or XX = print payload in HEX and ASCII
+          
+     BASIC TCPDUMP OPTIONS
+    -w = write to pcap
+    -r = read from pcap
+    -v, vv, or vvv = verbosity
+    -n = no inverse lookups
+
+     LOGICAL OPERATORS
+    Primitives may be combined using:
+    Concatenation: 'and' ( && )
+    Alteration: 'or' ( || )
+    Negation: 'not' ( ! )
+
+    COMPARE PRIMITIVES AND BPFS
+    Primitives (macros)
+    
+    CMU/Stanford Packet Filter (CSPF) Model commonly called Boolean Expression Tree
+    Simple and easy filter expressions
+    First user-level packet filter model
+    Memory-stack-based filter machine which can create bottlenecks on model CPUs
+    can have redundant computations of the same information
+
+    Berkley Packet Filters (BPF)
+
+    Control Flow Graph (CFG) Model
+    Uses a simple (non-shared) buffer model which can make it 1.5 to 20 times faster than CSPF
+    Can be more complex to create expressions but offer far more precision
+
+## using TCP dump primitives
+
+    sudo tcpdump -i eth0 (capture normally on eth0)
+    sudo tcpdump -r BPFcheck.pcap (read from a pcap)
+    sudo tcpdump -i eth0 -w practice.pcap (write the capture to a file)
+    **primitive searches in TCP dump:**
+      sudo tcpdump -r BPFCheck.pcap "ip src 10.10.10.24"
+      sudo tcpdump -r BPFCheck.pcap -vn "udp portrange 1-1023"
+      sudo tcpdump -r BPFCheck.pcap "udp portrange 1-1023 && ip src 10.0.2.15"
+      sudo tcpdump -r BPFCheck.pcap "udp portrange 1-1023 and ! ip src 10.0.2.15"
+      sudo tcpdump -r BPFCheck.pcap "udp portrange 1-1023 && (udp port 69 || tcp port 20)"
+
+ ## Berkley Packet Filters (BPF's)
+
+     TCPDUMP requests a RAW Socket creation
+     Filters are set using the SO_ATTACH_FILTER
+     SO_ATTACH_FILTER allows us to attach a Berkley Packet Filter to the socket to capture incoming packets.
 
 
+     tcpdump '{A} [B:C] {D} {E} {F} {G}'
 
+    A = Protocol (ether | arp | ip | ip6 | icmp | tcp | udp)
+    B = Header Byte number
+    C = optional: Byte Length. Can be 1, 2 or 4 (default 1)
+    D = optional: Bitwise mask (&)
+    E = Operator (= | == | > | < | <= | >= | != | () | << | >>)
+    F = Result of Expression
+    G = optional: Logical Operator (&& ||) to bridge expressions
 
+ ## BPF EXAMPLES
+    tcpdump -i eth0 'ether[12:2] = 0x0806'
+    tcpdump -i eth1 'ip[9] = 0x06' (next protocol in ipv4 header TCP)
+    tcpdump -i eth0 'tcp[0:2] = 53 || tcp[2:2] = 53' (listening on eth0, capture tcp traffic from byte offset 0-2 for DNS) 
+    tcpdump 'ether[12:2] = 0x0800 && (tcp[2:2] != 22 || tcp[2:2] != 23)'
+    tcpdump -i eth0 ether[12:2] = 0x0800 (ipv4)
+    tcpdump -i eth0 ether[12:2] = 0x0806 (arp)
+    tcpdump -i eth0 ether[12:2] = 0x8100 (VLan Tag)
+    tcpdump -i eth0 ether[12:2] = 0x86dd (ipv6)
+
+## Bitwise Masking
+
+       BPFs can read 1 (byte), 2 (half-word) or 4 (word)
+        BPFs alone will only filter to the byte level
+        Bit-wise masking allow filtering precision to the bit level
+        Binary (0) to ignore bit
+        Binary (1) to match bit
+
+        tcpdump 'ether[12:4] & 0xffff0fff = 0x81000abc'
+        tcpdump 'ip[1] & 252 = 32'
+        tcpdump 'ip[6] & 224 != 0'
+        tcpdump 'tcp[13] 0x11 = 0x11'
+        tcpdump 'tcp[12] & 0xf0 > 0x50'
         
+## BPF Filter CTFD examples
 
- 
+    What is the Berkeley Packet Filter, using tcpdump, to capture all packets with a ttl of 64 and less, utilizing the IPv4 or IPv6 Headers? There should be 8508 packets.
+    sudo tcpdump -r BPFCheck.pcap 'ip[8] <=64 || ip6[7] <=64'
 
- 
+    What is the Berkeley Packet Filter, using tcpdump, to capture all IPv4 packets with at least the Dont Fragment bit set? There should be 2321 packets.
+     sudo tcpdump -r BPFCheck.pcap 'ip[6] & 64 = 64'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture traffic with a Source Port higher than 1024, utilizing the correct Transport Layer Headers? There should be 7805 packets.
+     sudo tcpdump -r BPFCheck.pcap 'tcp[0:2] > 1024 || udp[0:2] > 1024'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture all Packets with UDP protocol being set, utilizing the IPv4 or IPv6 Headers? There should be 1277 packets.
+     sudo tcpdump -r BPFCheck.pcap 'ip[9] = 0x11 || ip6[6] = 0x11'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture only packets with the ACK/RST or ACK/FIN flag set, utilizing the correct Transport Layer Header? There should be 1201 packets.
+     sudo tcpdump -r BPFCheck.pcap 'tcp[13] = 20 || tcp[13] = 17'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture all packets with an IP ID field of 213? There should be 10 packets.
+     sudo tcpdump -r BPFCheck.pcap 'ip[4:2] = 213'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture all traffic that contains a VLAN tag? There should be 182 packets.
+    sudo tcpdump -r BPFCheck.pcap 'ether[12:2] = 0x8100'
+
+    What is the Berkeley Packet Filter, using tcpdump, to capture all packets relating to DNS? There should be 63 packets.
+    sudo tcpdump -r BPFCheck.pcap 'tcp[0:2] = 53 || tcp[2:2] = 53 || udp[0:2] = 53 || udp[2:2] = 53'
+
+    What is the Berkeley Packet Filter, using tcpdump, to capture the initial packets from a client trying to initiate a TCP connection? There should be 3447 packets
+    sudo tcpdump -r BPFCheck.pcap 'tcp[13] = 2'
+
+    What is the Berkeley Packet Filter, using tcpdump, to capture the response packets from a server listening on an open TCP ports? There should be 277 packets
+    sudo tcpdump -r BPFCheck.pcap 'tcp[13] = 18'
+
+    What is the Berkeley Packet Filter, using tcpdump, to capture the response packets from a server with closed TCP ports There should be 17 packets
+    sudo tcpdump -r BPFCheck.pcap 'tcp[13] = 4'
+
+    What is the Berkeley Packet Filter, using tcpdump, to capture all TCP and UDP packets sent to the well known ports? There should be 3678 packets
+    sudo tcpdump -r BPFCheck.pcap 'tcp[2:2] <= 1023 || udp[2:2] <= 1023'
+
+    What is the Berkeley Packet Filter, using tcpdump, to capture all HTTP traffic? There should be 1404 packets
+    sudo tcpdump -r BPFCheck.pcap 'tcp[0:2] = 80 || tcp[2:2] = 80'
+
+    What is the Berkeley Packet Filter, using tcpdump, to capture all telnet traffic? There should be 62 packets
+    tcp[0:2] = 23 || tcp[2:2] = 23
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture all ARP traffic? There should be 40 packets
+     sudo tcpdump -r BPFCheck.pcap 'ether[12:2] = 0x0806'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture if the "Evil bit" is set? There should be 197 packets
+     sudo tcpdump -r BPFCheck.pcap 'ip[6] & 0x80 = 0x80'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture any packets containing the CHAOS protocol within an IPv4 header? There should be 139 packets
+     sudo tcpdump -r BPFCheck.pcap 'ip[9] = 0x10'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture all IPv4 packets with the DSCP field of 37? There should be 42 packets.
+     sudo tcpdump -r BPFCheck.pcap 'ip[1] >> 2 =37'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture all packets where the URG flag is not set and URG pointer has a value? There should be 43 packets
+     sudo tcpdump -r BPFCheck.pcap 'tcp[13]& 32 = 0 && tcp[18:2] != 0'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture a TCP null scan to the host 10.10.10.10? There should be 19 packets
+     sudo tcpdump -r BPFCheck.pcap 'ip[16:4] = 0x0a0a0a0a && tcp[13] =0'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture an attacker using vlan hopping to move from vlan 1 to vlan 10? There should be 15 packets
+       sudo tcpdump -r BPFCheck.pcap 'ether[12:4]&0xffff0fff = 0x81000001 && ether[16:4] & 0xffff0fff=0x8100000a'
+
+     What is the Berkeley Packet Filter, using tcpdump, to capture all IPv4 packets targeting just the beginning of potential traceroutes as it's entering your network. This can be from a Windows or Linux machine using their default settings? There should be 83 packets.
+     sudo tcpdump -r BPFCheck.pcap 'ip[8] = 0x01 && (ip[9] = 0x11 || ip[9]=0x01)'
+       
+
+    
+    
+     
+    
+     
 
  
 
