@@ -1205,6 +1205,7 @@ https://net.cybbh.io/public/networking/latest/06_traffic_cap/fg.html
      
 ## Python Examples
 
+## Stream Socket
 
      #!/usr/bin/python3
      import socket
@@ -1219,6 +1220,7 @@ https://net.cybbh.io/public/networking/latest/06_traffic_cap/fg.html
      s.close()
 
      ** sudo tcpdump -i eth0 -XX -vn | nc -lvp 45678 **
+## Datagram Socket
 
      #!/usr/bin/python3
     import socket
@@ -1266,9 +1268,44 @@ https://net.cybbh.io/public/networking/latest/06_traffic_cap/fg.html
     
     s.sendto(packet, (dest_ip, 0))
 
+    ** sudo tcpdump -i eth0 -XX -vn "ip[4:2] = 1775" **
 
+## TCP RAW client
 
+     tcp_raw_client.py
+
+     ** sudo tcpdump -i eth0 -XX -vn "ip[4:2] = 1918 **
      
+## encoding and decoding
+
+     Encoding
+
+    The process of taking bits and converting them using a specified cipher.
+
+     Decoding
+     
+     Reverse of the conversion process used by the specified cipher for encoding.
+     Common encoding schemes
+     UTF-8, Base64, Hex
+
+     xxd gives a hex dump of a string. ex: 
+     echo "Wake up Marine" | xxd
+     00000000: 5761 6b65 2075 7020 4d61 7269 6e65 0a    Wake up Marine.
+
+     echo "FUBAR" | base64
+     RlVCQVIK
+
+     import base64
+     message = b'Are you awake right now?'
+     hidden_msg = base64.b64encode(message)
+     s.send(hidden_msg)
+
+      to decode that
+      decoded_msg = base64.b64decode(hidden_msg)
+       s.send(decoded_msg) **put all this at the end of the encoded msg**
+      
+      
+    
 
      
 
