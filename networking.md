@@ -1147,7 +1147,148 @@ https://net.cybbh.io/public/networking/latest/06_traffic_cap/fg.html
      sudo tcpdump -r BPFCheck.pcap 'ip[8] = 0x01 && (ip[9] = 0x11 || ip[9]=0x01)'
        
 
+# Packet Creation and Socket Programming
+
+    SOCKET TYPES
+    Stream Sockets - Connection oriented and sequenced; methods for connection establishment and tear-down. Used with TCP, SCTP, and Bluetooth.
+    Datagram Sockets - Connectionless; designed for quickly sending and receiving data. Used with UDP.
+    Raw Sockets - Direct sending and receiving of IP packets without automatic protocol-specific formatting.
+
+     User Space Sockets
+      Stream Sockets
+      Datagram Sockets
+
+    Kernel Space Sockets
+     Raw Sockets
+
+     **User Space Sockets** - The most common sockets that do not require elevated privileges to perform actions on behalf of user applications.
+     Using tcpdump or wireshark to read a file
+     Using nmap with no switches
+     Using netcat to connect to a listener
+     Using netcat to create a listener above the well known port range (1024+)
+     Using /dev/tcp or /dev/udp to transmit data
+
+     **Kernel Space Sockets** - Attempts to access hardware directly on behalf of a user application to either prevent encapsulation/decapsulation or to create packets from scratch, which requires elevated privileges.
+     Using tcpdump or wireshark to capture packets on the wire
+    Using nmap for OS identification or to set specific flags when scanning
+    Using netcat to create a listener in the well known port range (0 - 1023)
+    Using Scapy to craft or modify a packet for transmission
+
+## 12.4.1 Understanding Python Libraries
+
+    Libraries (Standard Python Library)
+     Modules (_import module)
+     Functions (module.function)
+     Exceptions (try:)
+     Constants
+     Objects ()
+     List [] vs Tuple ()  
+
+     my_string.upper()
+     my_string.lower()
+     my_string.split()
+     my_list.append()
+     my_list.insert()
+
+     import {module}
+     import {module} as {name}
+     from {module} import *
+     from {module} import {function}
+     from {module} import {function} as {name}
+
+     import socket
+     s = socket.socket(socket.FAMILY, socket.TYPE, socket.PROTOCOL)
+
+     family: AF_INET (default), AF_INET6, AF_UNIX
+     type: SOCK_STREAM (default), SOCK_DGRAM, SOCK_RAW
+     proto: 0 (default), IPPROTO_TCP, IPPROTO_UDP, IPPROTO_IP, IPPROTO_ICMP, IPPROTO_RAW
+     
+## Python Examples
+
+
+     #!/usr/bin/python3
+     import socket
+     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+     ip_addr = '127.0.0.1'
+     port = 1111
+     s.connect((ip_addr, port))
+     message = b"Message"
+     s.send(message)
+     data, conn = s.recvfrom(1024)
+     print(data.decode('utf-8'))
+     s.close()
+
+     ** sudo tcpdump -i eth0 -XX -vn | nc -lvp 45678 **
+
+     #!/usr/bin/python3
+    import socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    ipaddr = '127.0.0.1'
+    port = 12345
     
+    s.sendto(b'Python is the best!\n', (ipaddr,port))
+    response, conn = s.recvfrom(1024)
+    print(response.decode())
+
+     ** sudo tcpdump -i eth0 -XX -vn | nc -luvp 12345 **
+
+## ip RAW socket
+     import socket
+     import sys
+     from struct import *
+     
+     try:
+             s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+     except socket.error as msg:
+             print(msg)
+             sys.exit()
+     
+     packet = ''
+     
+     src_ip = "10.10.10.10"
+     dest_ip = "20.20.20.20"
+     
+     ip_ver_ihl = 69
+     ip_tos = 0
+    ip_len = 0
+    ip_id = 1775
+    ip_frag = 0
+    ip_ttl = 64
+    ip_proto = 16
+    ip_check = 0
+    ip_srcadd = socket.inet_aton(src_ip)
+    ip_dstadd = socket.inet_aton(dest_ip)
+
+    ip_header = pack('!BBHHHBBH4s4s', ip_ver_ihl, ip_tos, ip_len, ip_id, ip_frag, ip_ttl, ip_proto, ip_check, ip_srcadd, ip_dstadd)
+    
+    message = b'Almost made it to chow'
+    packet = ip_header + message
+    
+    s.sendto(packet, (dest_ip, 0))
+
+
+
+     
+
+     
+
+     
+     
+
+     
+
+
+
+
+
+
+
+     
+ 
+
+    
+    
+   
     
      
     
