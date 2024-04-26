@@ -1307,7 +1307,183 @@ https://net.cybbh.io/public/networking/latest/06_traffic_cap/fg.html
        s.send(decoded_msg) **put all this at the end of the encoded msg**
       
       
-    
+  ## Service and Network discovery FG
+https://net.cybbh.io/public/networking/latest/07_discovery/fg.html
+
+       
+     RECONNAISSANCE STAGES
+       Passive External
+       Active External
+       Passive Internal
+       Active Internal
+
+       x-special/nautilus-clipboard
+       copy
+       file:///home/luke.a.mcghee55/Desktop/Screenshot%20from%202024-04-26%2008-35-02.png
+
+       RECONNAISSANCE STEPS
+          Network Footprinting
+          Network Scanning
+          Network Enumeration
+          Vulnerability Assessment
+
+          NETWORK ENUMERATION
+           Network Resource and shares
+           Users and Groups
+           Routing tables
+           Auditing and Service settings
+           Machine names
+           Applications and banners
+           SNMP and DNS details
+           Other common services and ports
+
+         VULNERABILITY ASSESSMENT
+          Injection
+          Broken Authentication
+          Sensitive Data Exposure
+          XML External Entities
+          Broken Access Control
+          Security Misconfiguration
+          Software/Components with Known Vulnerabilities
+          DESCRIBE METHODS USED FOR PASSIVE EXTERNAL DISCOVERY
+          recon1
+          USEFUL SITES
+          OSINT Framework
+          Pentest-Standard
+          SecuritySift
+          DESCRIBE METHODS USED FOR ACTIVE EXTERNAL DISCOVERY
+          recon2
+          https://osintframework.com/
+
+       PASSIVE RECON ACTIVITIES
+        IP Addresses and Sub-domains
+        Identifying External/3rd Party sites
+        Identifying People
+        Identifying Technologies
+        Identifying Content of Interest
+        Identifying Vulnerabilities
+
+        IDENTIFYING CONTENT OF INTEREST
+         /etc/passwd and /etc/shadow or SAM database
+         Configuration files
+         Log files
+         Backup files
+         Test pages
+         Client-side code
+
+     IDENTIFYING VULNERABILITIES
+      Known Technologies
+      Error messages responses
+      Identify running services
+      Identify running OS
+      Monitor running Applications
+
+      DIG VS WHOIS
+       Whois - queries DNS registrar over TCP port 43
+       Information about the owner who registered the domain
+       Dig - queries DNS server over UDP port 53
+       Name to IP records
+
+      whois example:
+        whois zonetransfer.me (look for name servers, phone numbers, emails etc.)
+
+      Dig examples:
+         dig zonetransfer.me A -> ipv4
+         dig zonetransfer.me AAAA -> ipv6
+         dig zonetransfer.me MX -> aspmx2.googlemail.com. (first dot would be an @ sign)
+         dig zonetransfer.me TXT -> text record, made by people to give information for network admins
+         dig zonetransfer.me NS -> name server
+         dig zonetransfer.me SOA -> start of authority
+
+         dig {website} {server} 
+
+       Zone Transfer -> transfering info from one SOA to another via tcp 53
+        dir axfr {@soa.server} {target-site}
+        dig axfr @nsztm1.digi.ninja zonetransfer.me
+
+       NetCraft -> similar to whois, but web-based. https://sitereport.netcraft.com
+
+       PASSIVE OS FINGERPRINTER (P0F)
+         Examine packets sent to/from target
+         Can guess Operating Systems and version
+         Can guess client/server application and version
+       
+        p0f: Passive scanning of network traffic and packet captures.
+
+         more /etc/p0f/p0f.fp
+         sudo p0f -i eth0
+         sudo p0f -r test.pcap
+
+        SCANNING NATURE
+        Active -> reaching out and touching the box
+        Passive -> capturing traffic
+
+        SCANNING STRATEGY (local is the network, remote is outside the primary network)
+         Remote to Local
+         local to Remote
+         local to Local
+         Remote to Remote
+
+         SCANNING APPROACH
+         Aim
+          Wide range target scan
+          Target specific scan
+
+          Method
+            Single source scan
+              1-to-1 or 1-to-many
+
+           Distributed scan
+             many-to-one or many-to-many
+
+         NETWORK SERVICE DISCOVERY -> nmap scans
+             Broadcast Ping/Ping sweep (-sP, -PE)
+             **SYN scan (-sS)**
+             **Full connect scan (-sT)**
+             Null scan (-sN)
+             FIN scan (-sF)
+             XMAS tree scan (-sX)
+             **UDP scan (-sU)**
+             **Idle scan (-sI)** (zombie, using another box to scan another box)
+             ACK/Window scan (-sA)
+            RPC scan (-sR)
+            FTP scan (-b)
+            Decoy scan (-D)
+            **OS fingerprinting scan (-O)**
+            **Version scan (-sV)**
+            Protocol ping (-PO)
+            Discovery probes (-PE, -PP, -PM)
+            -PE - ICMP Ping
+            **-Pn - No Ping** (pretty much always use -Pn)
+
+           NMAP - TIME-OUT
+            -T0 - Paranoid - 300 Sec
+            -T1 - Sneaky - 15 Sec
+            -T2 - Polite - 1 Sec
+            -T3 - Normal - 1 Sec
+            **-T4 - Aggresive - 500 ms** using this one in this course
+            -T5 - Insane - 250 ms
+
+           
+            
+            
+            
+            
+                         
+
+             
+
+        
+       
+        
+         
+      
+
+       
+     
+          
+      
+       
 
      
 
