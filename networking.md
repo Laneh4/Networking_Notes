@@ -1275,6 +1275,8 @@ https://net.cybbh.io/public/networking/latest/06_traffic_cap/fg.html
      tcp_raw_client.py
 
      ** sudo tcpdump -i eth0 -XX -vn "ip[4:2] = 1918 **
+     **sudo tcpdump -i eth0 -XX -vn "tcp[4:4] = 454" (or this one for the seq number)**
+
      
 ## encoding and decoding
 
