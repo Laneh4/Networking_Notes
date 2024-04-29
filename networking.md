@@ -1464,6 +1464,226 @@ https://net.cybbh.io/public/networking/latest/07_discovery/fg.html
             **-T4 - Aggresive - 500 ms** using this one in this course
             -T5 - Insane - 250 ms
 
+       TRACEROUTE - FIREWALKING (probs won't use it much in here)
+       traceroute 172.16.82.106
+       traceroute 172.16.82.106 -p 123
+       sudo traceroute 172.16.82.106 -I
+       sudo traceroute 172.16.82.106 -T
+       sudo traceroute 172.16.82.106 -T -p 443
+
+       NETCAT - SCANNING (like nmap but faster, nmap is a little easier to view)
+       nc [Options] [Target IP] [Target Port(s)]
+       -z : Port scanning mode i.e. zero I/O mode
+       -v : Be verbose [use twice -vv to be more verbose]
+       -n : do not resolve ip addresses
+       -w1 : Set time out value to 1
+       -u : To switch to UDP
+
+       nc -zvn -w1 172.16.82.106 21-23 (if you expect a port to be open and it doesn't show, your box cannot see it)
+       [172.16.82.106] 23 (telnet) open
+       [172.16.82.106] 22 (ssh) open
+       [172.16.82.106] 21 (ftp) open
+
+       NETCAT - TCP SCAN SCRIPT (ports to check! 21-23 80)
+       #!/bin/bash
+       echo "Enter network address (e.g. 192.168.0): "
+       read net
+       echo "Enter starting host range (e.g. 1): "
+       read start
+       echo "Enter ending host range (e.g. 254): "
+       read end
+       echo "Enter ports space-delimited (e.g. 21-23 80): "
+       read ports
+       for ((i=$start; $i<=$end; i++))
+       do
+           nc -nvzw1 $net.$i $ports 2>&1 | grep -E 'succ|open'
+       done
+
+       NETCAT - UDP SCAN SCRIPT
+       #!/bin/bash
+       echo "Enter network address (e.g. 192.168.0): "
+       read net
+       echo "Enter starting host range (e.g. 1): "
+       read start
+       echo "Enter ending host range (e.g. 254): "
+       read end
+       echo "Enter ports space-delimited (e.g. 21-23 80): "
+       read ports
+       for ((i=$start; $i<=$end; i++))
+       do
+           nc -nuvzw1 $net.$i $ports 2>&1 | grep -E 'succ|open'
+       done
+
+       NETCAT - BANNER GRABBING
+       Find what is running on a particular port(-u for udp)
+       nc [Target IP] [Target Port]
+       nc 172.16.82.106 22
+       ex:
+         nc 172.16.82.106 21
+            220 ProFTPD Server (Debian) [::ffff:172.16.82.106]
+      9999 - maybe an alternate ssh port? 
+      maybe there's a message on a port.
+
+      CURL AND WGET
+    Both can be used to interact with the HTTP, HTTPS and FTP protocols. (pulls back information hosted on server)
+    Curl - Displays ASCII
+    curl http://172.16.82.106
+    curl ftp://172.16.82.106
+
+    Wget - Downloads (-r recursive) **downloads file from webserver**
+    wget -r http://172.16.82.106
+    wget -r ftp://172.16.82.106
+    wget -r http://172.16.82.106:8888 (write http/port if not using native http port)
+    then cat the file saved.
+    or
+    firefox 172.16.82.106/index.html (to view it in browser)
+
+    **do this if file is somewhere other than root dir**
+    ftp 172.16.82.106
+    login
+    ftp > ls
+    cd ..
+    ls
+    **go into passive mode**
+    ftp > get passwd (to pull back files in ftp passive mode)
+
+    **Packet sniffers** **look for credentials on the network / "sending traffic to this box" / advertising a network ** (cannot use wireshark or tcpdump through a tunnel)
+    wireshark
+    tcpdump
+
+    **NATIVE HOST TOOLS**
+    Show TCP/IP network configuration
+    Windows: ipconfig /all
+    Linux: ip address (ifconfig depreciated)
+    VyOS: show interface
+
+    **NATIVE HOST TOOLS**
+    Show DNS configuration
+    Windows: ipconfig /displaydns
+    Linux: cat /etc/resolv.conf
+
+    **Show ARP Cache**
+    Windows: arp -a
+    Linux: ip neighbor (arp -a depreciated)
+
+    **Show network connections**
+    Windows: netstat
+    Linux: ss (netstat depreciated)
+    
+    Example options useful for both netstat and ss: -antp
+    a = Displays all active connections and ports.
+    n = No determination of protocol names. Shows 22 not SSH.
+    t = Display only TCP connections.
+    u = Display only UDP connections.
+    p = Shows which processes are using which sockets.
+
+    **Services File**
+    Windows: %SystemRoot%\system32\drivers\etc\services
+    Linux/Unix: /etc/services
+
+    **OS Information**
+    Windows: systeminfo
+    Linux: uname -a and /etc/os-release
+
+    **Show Running Processes**
+    Windows: tasklist
+    Linux: ps or top
+    
+    Example options useful for ps: -elf
+    e = Show all running processes
+    l = Show long format view
+    f = Show full format listing
+
+    Command path -> run which command for all the programs you're trying to use(might have to sudo which)
+    which
+    whereis
+
+    **Routing Table**
+    Windows: route print
+    Linux: ip route (netstat -r deprecated)
+    VyOS: show ip route
+
+    **File search**
+    find / -name hint* 2> /dev/null
+    find / -iname flag* 2> /dev/null (do this for everything)
+
+    ACTIVE INTERNAL DISCOVERY
+
+    Ping scanning
+    for i in {1..254}; do (ping -c 1 172.16.82.$i | grep "bytes from" &) ; done
+    then
+    nmap -Pn -T4 172.16.82.106,112,110,113,114,115,126 -p 21-23,80
+
+    NETWORK FORENSICS - MAPPING
+     Device type (Router/host)
+     System Host-names
+     Interface names (eth0, eth1, etc)
+     IP address and CIDRs for all interfaces
+     TCP and UDP ports
+     MAC Address
+     OS type/version
+     Known credentials
+
+ ## demo
+     1. ip a (find your interfaces)
+       draw your IH box, write your interface and ip.
+     2. given an ip for a next hop -> draw next hop and ip
+       nmap scan( nmap -Pn -T4 10.10.205.253 -p 21-23 80)
+     4. banner grab port to make sure it aligns with port (nc 10.10.205.253 22)
+     5. write open port/s & creds.
+     6. if 22/23 -> connect and start enumeration
+     7. if 21 or 80, wget 
+    8. get on the box -> ssh student@10.10.205.253 -> if vyos, l: vyos p: passowrd
+    9. ss -ntlp
+    10. ip neigh (if stale, still a possibility)
+
+    Internal recon methodology
+     italicized/bolded words are commands
+
+     _hostname_
+     permissions: sudo -l
+     
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+
+      
+      
+      
+         
+        
+        
+       
+        
+
+       
+       
+       
+
+       
+            
+
            
             
             
