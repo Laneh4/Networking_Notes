@@ -1858,26 +1858,150 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
         nc -lvp 3333 > question4.txt
         
 
+ ## SSH TUNNELING AND COVERT CHANNELS
+
+ ## COVERT CHANNELS VS STEGANOGRAPHY
+ https://net.cybbh.io/-/public/-/jobs/868185/artifacts/modules/networking/slides-v4/08_tunneling.html
+
+     **TYPE OF COVERT CHANNELS**
+     Storage
+       Payload
+       Header
+         IP Header (TOS, IP ID, Flags + Fragmentation, and Options)
+         TCP Header (Reserved, URG Pointer, and Options)
+
+
+      Timing
+        Modifying transmission of legitimate traffic
+        Delaying packets between nodes
+        Watch TTL changes
+        Watch for variances between transmissions
+
+      common protocols used with covert channels:
+      ICMP
+      DNS
+      HTTP
+
+      **HOW TO DETECT COVERT CHANNELS**
+      Host Analysis
+         Requires knowledge of each applications expected behavior.
+         
+      Network Analysis
+         A good understanding of your network and the common network protocols being used is the key
+         
+      Baselining of what is normal to detect what is abnormal
+
+     **DETECTING COVERT CHANNELS WITH ICMP**
+     ICMP works with one request and one reply answer
+       Type 8 code 0 request
+       Type 0 code 0 answer
+     Check for:
+      Payload imbalance
+      Request/responce imbalance 
+      Large payloads in response
+           
+       **ICMP COVERT CHANNEL TOOLS**
+       1. ptunnel
+       2. loki
+       3. 007shell
+       4. ICMP Backdoor
+       5. B0CK
+       6. Hans
+
+       **DETECTING COVERT CHANNELS WITH DNS**
+       DNS is a request/response protocol
+
+     1 request typically gets 1 response
+     Payloads generally do no exceed 512 bytes
+     Check for:
+        Request/response imbalances
+        Unusual payloads
+        Burstiness or continuous use
+
+        **DNS COVERT CHANNEL TOOLS**
+        1.OzymanDNS
+        2.NSTX
+        3.dns2tcp
+        4.iodine
+        5.heyoka
+        6.dnscat2
+
+        **DETECTING COVERT CHANNELS WITH HTTP**
+        Request/Response protocol to pull web content
+        GET request may include .png, .exe, .(anything) files
+        Can vary in sizes of payloads
+        Typically "bursty" but not steady
+
+       **HTTP COVERT CHANNEL TOOLS**
+       1. tunnelshell tools
+       2. HTTPTunnel
+       3. SirTunnel
+       4. go HTTP tunnel
+
+## STEGANOGRAPHY
+
+    Hiding messages inside legitimate information objects
+
+      Methods:
+       injection
+       substitution
+       propagation
+
+       **STEGANOGRAPHY INJECTION**
+
+       Done by inserting message into the unused (whitespace) of the file, usually in a graphic
+       Second most common method
+       Adds size to the file
+       Hard to detect unless you have original file
+       tools:
+        StegHide
+
+     **STEGANOGRAPHY SUBSTITUTION**
+     Done by inserting message into the insignificant portion of the file
+     Most common method used
+     Elements within a digital medium are replaced with hidden information
+     Example
+        Change color pallate (+1/-1)
+
+     **STEGANOGRAPHY PROPAGATION**
+
+     Generates a new file entirely
+     Needs special software to manipulate file
+
+    tools:
+    StegSecret
+    HyDEn
+    Spammimic
+     
+     
+       
+       
+        
+
+
+
+        
+
+        
                 
                
-        
-        
-
-        
-        
-
-        
-        
-        
-
-        
+       
+      
+      
+      
+      
 
 
+      
 
-        
-        
+      
 
-        
+    
+
+    
+    
+
+    
         
 
       
