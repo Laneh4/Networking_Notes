@@ -2336,6 +2336,20 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
              
              **polymorphic** - continuously change its code to get around people catching its signature
              **metamorphic** - when it moves, it changes what it is. changes itsself to fit whatever environment it is.
+
+
+   ## P0F demo
+
+       sudo p0f -r ../activity_resources/pcaps/remote_capture.pcap
+       sudo p0f -r ../activity_resources/pcaps/remote_capture.pcap 'src host 10.1.0.2' **for source**
+       sudo p0f -r ../activity_resources/pcaps/remote_capture.pcap 'host 10.1.0.2' **for all traffic from this ip**
+       sudo p0f -r ../activity_resources/pcaps/remote_capture.pcap 'dst host 10.1.0.2' **for destination**
+       sudo p0f -r ../activity_resources/pcaps/remote_capture.pcap | grep http **look for http traffic**
+       sudo p0f -r ../activity_resources/pcaps/remote_capture.pcap | grep "http request" **finds http requests**
+       sudo p0f -r ../activity_resources/pcaps/remote_capture.pcap 'src host 10.1.0.2' | grep Linux **finds os version, can also grep for 'os'**
+       
+       
+       
           
                    
 
