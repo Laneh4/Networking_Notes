@@ -2078,7 +2078,153 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
        
        Internet Host:
        ssh localhost -p 2222 -D 9050 -NT
+
+
+## Network Analysis
+
+
+      **TOOLS**
+      Sensors
+          In-Line
+            Test Access Point (TAP)
+            Man-in-the-Middle (MitM)
+          Out of Band (Passive)
+            Switched Port Analyzer (SPAN)
+
+       **IN-LINE SENSOR**
+       Placed between communicating devices to stop attacks
+           Intrusion Prevention System (IPS)
+           Firewall
+       Impacts network latency
+
+       PASSIVE SENSOR
+       Monitors network segments
+       Can detect attacks but cannot stop them
+       Gets copies of network traffic
+         Intrusion Detection System (IDS)
+       Does not impact network latency
+
+       TAP
+       Appliance placed between 2 network devices
+       Best for packet collection with no data loss
+       Must be placed "in line" of network traffic
+       Not Scalable
+       Will need several installed to capture traffic for other network segments
+
+       MITM
+      Attacker can use ARP or some other method/protocol
+      Attackers can sniff or manipulate traffic that flows through them
+      Typically must be on the same network as the victim
+      Traffic capture is dependent on the attacker’s system and bandwidth
+      there are different types of MITM attacks
+
+      SPAN
+     Configured on the network Switch
+     Best for packet collection of traffic from several switch ports at once
+     Scalable
+     Can have a high degree of packet loss
+     Places burden on the network Switch
+
+      **IDENTIFY DEFAULT CHARACTERISTICS FOR SYSTEM IDENTIFICATION**
+      FINGERPRINTING AND HOST IDENTIFICATION
+     Variances in the RFC implementation for different OS’s and systems enables the capability for fingerprinting
+     Tools used for fingerprinting and host identification can be used passively(sniffing/fingerprinting) or actively(scanning)
+
+     **FINGERPRINTING**
+
+     Active OS fingerprinting
+
+     Easier
+     Send packets to the target and monitor response
+     Tools:
+       Nmap
+       Xprobe2
+       sinfp3
+
+     **FINGERPRINTING**
+     Passive OS fingerprinting
+
+     More difficult
+     Rely on sniffing packets
+     Tools:
+        p0f
+        Ettercap
+        PRADS
+
+        **OPEN PORTS AND PROTOCOLS**
+        Known Windows/Linux ports
+        Known Windows/Linux protocols
+        Banner grab service ports
+
+    **EPHEMERAL PORTS**
+    IANA 49152–65535
+    Linux 32768–60999
+    Windows XP 1025–5000
+    Win 7/8/10 use IANA
+    Win Server 2008 1025–60000
+    Sun Solaris 32768–65535
+
+    **PROTOCOL SPECIFIC IDENTIFIERS**
+    HTTP: User-agent strings
+    SSH: Initial connection
+    NetBIOS Name Service
+
+    **P0F (PASSIVE OS FINGERPRINTING)**
+    Looks at variations in initial TTL, fragmentation flag, default IP header packet length, window size, and TCP options
+    Configuration stored in:
+       /etc/p0f/p0f.fp
+
+    **PERFORM NETWORK TRAFFIC BASELINING**
+    PERFORM BASELINING
+
+    Preparation:
+      Network Diagram
+      Known Servers, Hosts, and Networking devices
+      Known IPs, ports, and protocols
+      Known forbidden IPs, ports, and protocols
+      Known traffic "flows"
+
+      Scope and Objectives:
+         What traffic/protocols to capture?
+         Which network segments?
+         Which days?
+         What times?
+
+     **DETERMINE TRAFFIC FLOW THROUGH PROTOCOL COMMUNICATION ANALYSIS**
+     on wireshark:
+       Protocol Hierarchy
+       Conversations
+       Endpoints
+       I/O Graph
+       IPv4 and IPv6 Statistics
+       Expert Information
+       
+     
+
+    
+    
+
+       
+    
+
+    
+    
+        
+
+        
+        
+     
+          
+
+     
       
+      
+       
+
+       
+    
+
+     
           
              
          
