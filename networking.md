@@ -2332,8 +2332,10 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
              Check-Ins may not have any payloads
              Orders will have payloads
 
-             polymorphic - continuously change its code to get around people catching its signature
-             metamorphic - when it moves, it changes what it is. changes itsself to fit whatever environment it is.
+             
+             
+             **polymorphic** - continuously change its code to get around people catching its signature
+             **metamorphic** - when it moves, it changes what it is. changes itsself to fit whatever environment it is.
           
                    
 
