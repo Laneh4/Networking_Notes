@@ -2116,7 +2116,7 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
       Attackers can sniff or manipulate traffic that flows through them
       Typically must be on the same network as the victim
       Traffic capture is dependent on the attacker’s system and bandwidth
-      there are different types of MITM attacks
+      there are different types of MITM attacks(usually ARP)
 
       SPAN
      Configured on the network Switch
