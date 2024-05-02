@@ -1972,10 +1972,118 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
     StegSecret
     HyDEn
     Spammimic
+
+
+
+  ## SSH LOCAL PORT FORWARDING
+
+     ssh -p <optional alt port> <user>@<pivot ip> -L <local bind port>:<tgt ip>:<tgt port> -NT
+
+     or
      
+     ssh -L <local bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<pivot ip> -NT
+
+  ## SSH Local Port Forwarding to SSH (run from internet_host)
+
+      Internet_Host:
+     ssh student@172.16.1.15 -L 1112:172.16.40.10:80 -NT
+     firefox localhost:1112
      
+     ssh student@172.16.1.15 -L 1113:172.16.40.10:23 -NT
+     telnet localhost 1113
+     
+     ssh student@172.16.1.15 -L 1113:172.16.40.10:3389 -NT
+     xfreerdp /v:localhost:1113 /u:student /p:password
+
+## SSH Local Port Forwarding Through a Local Port
+
+    Internet Host:
+    ssh student@172.16.1.15 -L 1111:172.16.40.10:22 -NT
+    
+    ssh student@localhost -p 1111 -L 2220:172.16.82.106:22 -NT
+    
+    ssh student@localhost -p 2220
+    
+    ssh student@localhost -p 1111 -L 2221:172.16.82.106:23 -NT
+    telnet localhost 2221
+    
+    ssh student@localhost -p 1111 -L 2222:172.16.82.106:80 -NT
+    firefox localhost:2222
+    
+    ssh student@localhost -p 1111 -L 2223:172.16.82.106:3389 -NT
+    xfreerdp /v:localhost:2223 /u:student /p:password
+
+ ## SSH Dynamic Port Forwarding (only use port 9050) (run from internet_host)
+
+     ssh -D <port> -p <alt port> <user>@<pivot ip> -NT
+
+ ## SSH Dynamic Port Forwarding 1-Step
+
+     Internet_Host:
+    ssh student@172.16.1.15 -D 9050 -NT
+    
+    proxychains ./scan.sh
+    proxychains nmap -Pn 172.16.40.0/27 -p 21-23,80
+    proxychains ssh student@172.16.40.10
+    proxychains telnet 172.16.40.10
+    proxychains wget -r http://172.16.40.10
+    proxychains wget -r ftp://172.16.40.10
+
+ ## SSH Dynamic Port Forwarding 2-Step
+
+    Internet_Host:
+    ssh student@172.16.1.15 -L 1111:172.16.40.10:22 -NT
+    ssh student@localhost -p 1111 -D 9050 -NT
+    
+    proxychains ./scan.sh
+    proxychains nmap -Pn 172.16.82.96/27 -p 21-23,80
+    proxychains ssh student@172.16.82.106
+    proxychains telnet 172.16.82.106
+    proxychains wget -r http://172.16.82.106
+    proxychains wget -r ftp://172.16.82.106
+
+ ## SSH Remote Port Forwarding
+
+     ssh -p <optional alt port> <user>@<remote ip> -R <remote bind port>:<tgt ip>:<tgt port> -NT
+
+     or
+     
+     ssh -R <remote bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<remote ip> -NT
+
+     **Creates 1111 on the Internet_Host mapped to Blue_DMZ_Host-1 own localhost port 22**
+     Blue_DMZ_Host-1:
+     ssh student@10.10.0.40 -R 1111:localhost:22 -NT
+     
+     or
+     
+     ssh -R 1111:localhost:22 student@10.10.0.40 -NT
+
+     **Creates a remote port on the remote’s local host that forwards to the target specified**
+     Blue Host-1:
+     ssh student@10.10.0.40 -R 1111:localhost:22 -NT
+     
+     Internet_Host:
+     ssh student@localhost -p 1111 -D 9050 -NT
+
+  ## SSH Remote and Local Port Forwarding
+
+      **Creates a remote port on a remote machine, staging a connection
+       Also creates a local port on the localhost to connect to the previously staged connection**
+
+       Blue Private Host-1:
+       ssh student@192.168.1.1 -R 1111:localhost:22 -NT
        
+       Internet Host:
+       ssh student@172.16.82.106 -L 2222:localhost:1111 -NT
        
+       Internet Host:
+       ssh localhost -p 2222 -D 9050 -NT
+      
+          
+             
+         
+           
+           
         
 
 
