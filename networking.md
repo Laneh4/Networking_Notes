@@ -2198,7 +2198,180 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
        I/O Graph
        IPv4 and IPv6 Statistics
        Expert Information
+
+       ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/a49868b7-6b91-4988-910c-e074d90680ff)
+       ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/0bbf0bf1-18ed-414d-b9a0-2a5ffc763c30)
+
+       **Indicators:**
+        **ANOMALY DETECTION**
+        indicator of Attack (IOA)
+          Proactive
+          A series of actions that are suspicious together
+          Focus on Intent
+          Looks for what must happen
+            Code execution. persistence, lateral movement, etc.
+
+        Indicator of Compromise (IOC)
+           Reactive
+           Forensic Evidence
+           Provides Information that can change
+             Malware, IP addresses, exploits, signatures
+
+           **SOME INDICATORS**
+           .exe/executable files
+           NOP sled
+           Repeated Letters
+           Well Known Signatures
+           Mismatched Protocols
+           Unusual traffic
+           Large amounts of traffic/ unusual times
+
+      **Signs of IOA**
+      Destination IP/Ports
+      Public Servers/DMZs
+      Off-Hours
+      Network Scans
+      Alarm Events
+      Malware Reinfection
+      Remote logins
+      High amounts of some protocols
+
+      **Signs of IOC**
+      Unusual traffic outbound
+      Anomalous user login or account use
+      Size of responses for HTML
+      High number of requests for the same files
+      Using non-standard ports/ application-port mismatch
+      Writing changes to the registry/system files
+      Unexpected/unusual patching or tasks
+
+      **Types of Malware**
+      **ADWARE/SPYWARE**
+      large amounts of traffic/ unusual traffic
+      IOA
+        Destinations
+      IOC
+        Unusual traffic outbound
+
+        **VIRUS**
+        phishing/ watering hole
+        IOA
+          Alarm Events, Email protocols
+        IOC
+          Changes to the registry/ system files
+
+        **WORM**
+        phishing/ watering hole
+        IOA
+          Alarm events
+        IOC
+          changes to registry/ system files
+
+          **TROJAN**
+          beaconing
+          IOA
+            Destinations
+          IOC
+            Unusual traffic outbound, unusual tasks, changes to registry/ system files
+
+            **ROOTKIT**
+            IOA
+              Malware reinfection
+            IOC
+              Anomalous user login/ account use
+
+         **BACKDOOR**
+         IOA
+           Remote logins
+         IOC
+           Anomalous user login/ account use
+
+        **BOTNETS**
+        large amounts of IPs
+        IOA
+          Destinations, remote logins
+        IOC
+          Unusual tasks, anomalous user login/ account use
+
+          **DETERMINE NETWORK ANOMALIES THROUGH TRAFFIC ANALYSIS**
+          ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/4184d7af-cd04-4259-ac91-39a1928684c1)
+          ICMP TUNNELING
+
+          ICMP PING uses Type 8 and Type 0
+          Both should be:
+             1 for 1
+             Same size and payload
+          Look out for:
+             Request/Reply imbalances
+             Abnormal/different payloads
+
+             **DNS TUNNELING**
+             ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/b1b2e55b-178d-4fb1-a846-126dc80a1e7c)
+
+             DNS uses Query/Response
+               1 Query typically gets 1 response
+             Look out for:
+                Query/Response imbalances
+                Abnormal/different payloads
+                Continuous Queries
+
+            **HTTP(S) TUNNELING**
+            HTTP is "bursty" in nature
+            Client issues request and the server responds
+            Look out for:
+               Steady connections
+               HTTPs you will need to check session establishment for abnormalities
+
+          **BEACONING**
+          Call back to the C&C server
+          Gets/sends commands from/to C&C
+          Look out for:
+             Beacon Timing
+             Commonly at regular intervals
+          Beacon Size
+             Check-Ins may not have any payloads
+             Orders will have payloads
+          
+                   
+
+             
+
+             
+
+          
+          
+          
+
+          
+
+          
+        
+         
+
+          
+            
+
+          
+          
+
+          
+      
+
+      
+      
+      
+
+      
+
+           
+           
+     
        
+       
+       
+
+       
+
      
 
     
