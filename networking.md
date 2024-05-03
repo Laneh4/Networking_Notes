@@ -2502,9 +2502,127 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
         sudo iptables -t filter -I INPUT -p icmp -s 172.16.82.112 -j ACCEPT
         sudo iptables -t filter -I OUTPUT -p icmp -d 172.16.82.112 -j ACCEPT
         
-
         to see line numbers to replace -
         sudo iptables -L --line-numbers
+
+        **to change default policy to accept, then flush**
+        sudo iptables -t filter -P INPUT ACCEPT
+        sudo iptables -t filter -P OUTPUT ACCEPT
+        sudo iptables -t filter -P FORWARD ACCEPT
+        sudo iptables -t filter -F
+        sudo iptables -t filter -L
+
+## CONFIGURE NFTABLES FILTERING RULES
+
+       There are three chain types:
+       filter - to filter packets - can be used with arp, bridge, ip, ip6, and inet families
+       route - to reroute packets - can be used with ip and ipv6 families only
+       nat - used for Network Address Translation - used with ip and ip6 table families only
+
+       **NFTABLES FAMILIES**
+       ip - IPv4 packets
+       ip6 - IPv6 packets
+       inet - IPv4 and IPv6 packets
+       arp - layer 2
+       bridge - processing traffic/packets traversing bridges.
+       netdev - allows for user classification of packets - nftables passes up to the networking stack (no counterpart in iptables)
+
+       **NFTABLES HOOKS**
+       ingress - netdev only
+       prerouting
+       input
+       forward
+       output
+       postrouting
+
+       **NFTABLES SYNTAX**
+       **1. CREATE THE TABLE**
+       nft add table [family] [table]
+       [family] = ip*, ip6, inet, arp, bridge and netdev.
+       [table] = user provided name for the table.
+
+       **2. CREATE THE BASE CHAIN**
+       nft add chain [family] [table] [chain] { type [type] hook [hook]
+              priority [priority] \; policy [policy] \;}
+       * [chain] = User defined name for the chain.
+       * [type] =  can be filter, route or nat.
+       * [hook] = prerouting, ingress, input, forward, output or
+                postrouting.
+       * [priority] = user provided integer. Lower number = higher
+                    priority. default = 0. Use "--" before
+                    negative numbers.
+       * ; [policy] ; = set policy for the chain. Can be
+                     accept (default) or drop.
+        Use "\" to escape the ";" in bash
+
+        **3. CREATE A RULE IN THE CHAIN**
+        nft add rule [family] [table] [chain] [matches (matches)] [statement]
+        * [matches] = typically protocol headers(i.e. ip, ip6, tcp,
+                    udp, icmp, ether, etc)
+        * (matches) = these are specific to the [matches] field.
+        * [statement] = action performed when packet is matched. Some
+                      examples are: log, accept, drop, reject,
+                      counter, nat (dnat, snat, masquerade)
+
+       **RULE MATCH OPTIONS**
+       ip [ saddr | daddr { ip | ip1-ip2 | ip/CIDR | ip1, ip2, ip3 } ]
+       tcp flags { syn, ack, psh, rst, fin }
+       tcp [ sport | dport { port1 | port1-port2 | port1, port2, port3 } ]
+       udp [ sport| dport { port1 | port1-port2 | port1, port2, port3 } ]
+       icmp [ type | code { type# | code# } ]
+
+       ct state { new, established, related, invalid, untracked }
+       iif [iface] (input interface)
+       oif [iface] (output interface)
+
+       **MODIFY NFTABLES**
+       nft { list | flush } ruleset
+       nft { delete | list | flush } table [family] [table]
+       nft { delete | list | flush } chain [family] [table] [chain]
+
+      List table with handle numbers
+            nft list table [family] [table] [-a]
+      Adds after position
+            nft add rule [family] [table] [chain] [position <position>] [matches] [statement]
+      Inserts before position
+            nft insert rule [family] [table] [chain] [position <position>] [matches] [statement]
+      Replaces rule at handle
+            nft replace rule [family] [table] [chain] [handle <handle>] [matches] [statement]
+      Deletes rule at handle
+            nft delete rule [family] [table] [chain] [handle <handle>]
+
+      **To change the current policy**
+      nft add chain [family] [table] [chain] { \; policy [policy] \;}
+      
+
+       
+
+       
+       
+
+       
+
+      
+       
+
+       
+        
+          
+       
+       
+       
+       
+
+       
+
+       
+       
+      
+
+     
+        
+        
+        
         
 
         
