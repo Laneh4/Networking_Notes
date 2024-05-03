@@ -2593,6 +2593,40 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
 
       **To change the current policy**
       nft add chain [family] [table] [chain] { \; policy [policy] \;}
+
+ ## NFT tables demo
+
+     sudo nft list ruleset
+     sudo nft add table ip CCTC
+     sudp nft add chain ip CCTC INPUT { type filter hook input priority 0 \; policy accept \; }
+     sudo nft add chain ip CCTC OUTPUT { type filter hook output priority 0 \; policy accept \; }
+     sudo nft list table ip CCTC
+     sudo nft insert rule ip CCTC INPUT tcp dport 22 accept
+     sudo nft insert rule ip CCTC INPUT tcp sport 22 accept
+     sudo nft list table ip CCTC -ann (lists table with numeric option)
+     sudo nft insert rule ip CCTC OUTPUT tcp dport 22 accept
+     sudo nft insert rule ip CCTC OUTPUT tcp sport 22 accept
+     sudo nft list ruleset
+     
+     **changes default policy**
+     sudo nft add chain ip CCTC INPUT { \; policy drop \; }
+     sudo nft add chain ip CCTC OUTPUT { \; policy drop \; }
+     sudo nft list ruleset
+
+     **flushing the table**
+     sudo nft add chain ip CCTC INPUT { \; policy accept \; } 
+     sudo nft add chain ip CCTC OUTPUT { \; policy accept \; }
+     sudo nft list ruleset
+               
+     **allows terminator ports**
+     sudo nft add rule ip CCTC INPUT tcp dport { 6010,6011,6012 } accept
+     sudo nft add rule ip CCTC INPUT tcp sport { 6010,6011,6012 } accept
+     sudo nft add rule ip CCTC OUTPUT tcp dport { 6010,6011,6012 } accept
+     sudo nft add rule ip CCTC OUTPUT tcp sport { 6010,6011,6012 } accept
+
+     
+
+     
       
 
        
