@@ -2624,6 +2624,69 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
      sudo nft add rule ip CCTC OUTPUT tcp dport { 6010,6011,6012 } accept
      sudo nft add rule ip CCTC OUTPUT tcp sport { 6010,6011,6012 } accept
 
+ ## CONFIGURE IPTABLES NAT RULES
+ ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/06b5cea6-fd4b-41f0-990c-4b374bd2954d)
+
+     **SOURCE NAT**
+     ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/00eea57c-99ab-42cf-8ebb-59ac264e69d9)
+     iptables -t nat -A POSTROUTING -o eth0 -s 192.168.0.1 -j SNAT --to 1.1.1.1
+
+     ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/54176cfe-853c-4664-b34d-ec8542d909f6)
+     iptables -t nat -A POSTROUTING -p tcp -o eth0 -s 192.168.0.1 -j SNAT --to 1.1.1.1:9001
+
+     iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE (takes all traffic leaving eth0 and masquerading it as that boxes ip)
+
+     **destination nat**
+     ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/770f63fe-dcdd-493c-92d3-1d25e6aad621)
+     iptables -t nat -A PREROUTING -i eth0 -d 8.8.8.8 -j DNAT --to 10.0.0.1
+     iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 22 -j DNAT --to 10.0.0.1:22
+     iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT --to 10.0.0.2:80
+     iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j DNAT --to 10.0.0.3:443
+     iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
+
+     **CONFIGURE NFTABLES NAT RULES**
+     **CREATING NAT TABLES AND CHAINS**
+     Create the NAT table
+       nft add table ip NAT
+     Create the NAT chains
+       nft add chain ip NAT PREROUTING { type nat hook prerouting priority 0 \; }
+       nft add chain ip NAT POSTROUTING { type nat hook postrouting priority 0 \; }
+
+     **SOURCE NAT**
+     nft add rule ip NAT POSTROUTING ip saddr 10.10.0.40 oif eth0 snat 144.15.60.11
+     nft add rule ip NAT POSTROUTING oif eth0 masquerade
+
+     **DESTINATION NAT**
+     nft add rule ip NAT PREROUTING iif eth0 ip daddr 144.15.60.11 dnat 10.10.0.40
+     nft add rule ip NAT PREROUTING iif eth0 tcp dport { 80, 443 } dnat 10.1.0.3
+     nft add rule ip NAT PREROUTING iif eth0 tcp dport 80 redirect to 8080
+
+     **CONFIGURE IPTABLES MANGLE RULES**
+     **MANGLE EXAMPLES WITH IPTABLES**
+     iptables -t mangle -A POSTROUTING -o eth0 -j TTL --ttl-set 128
+     iptables -t mangle -A POSTROUTING -o eth0 -j DSCP --set-dscp 26
+
+     
+     
+     
+
+     
+     
+     
+     
+     
+
+     
+     
+     
+
+     
+
+     
+
+
+ 
+
      
 
      
