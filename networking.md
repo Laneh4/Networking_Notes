@@ -2479,6 +2479,47 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
     Deletes rule at number
        iptables -t [table] -D [chain] [rule num]
 
+## **ip tables demo - **
+        sudo ip tables -t filter -L (view table) -n if you want to see port #'s
+        sudo iptables -t filter -A INPUT -p tcp --dport 22 -j ACCEPT 
+        sudo iptables -t filter -A OUTPUT -p tcp --sport 22 -j ACCEPT
+        sudo iptables -A INPUT -p tcp --sport 22 -j ACCEPT
+        sudo iptables -A OUTPUT -p tcp --dport 22 -j ACCEPT
+
+        to allow terminator ports- 
+        sudo iptables -A INPUT -p tcp -m multiport --ports 6010,6011,6012 -j ACCEPT
+        sudo iptables -A OUTPUT -p tcp -m multiport --ports 6010,6011,6012 -j ACCEPT
+
+        set default policy to drop - 
+        sudo iptables -P INPUT DROP
+        sudo iptables -P FORWARD DROP
+        sudo iptables -P OUTPUT DROP
+
+        drop specific ip's -  
+        sudo iptables -t filter -I INPUT -s 172.16.82.112 -j DROP
+        sudo iptables -t filter -I OUTPUT -d 172.16.82.112 -j DROP
+        **then allow ICMP**
+        sudo iptables -t filter -I INPUT -p icmp -s 172.16.82.112 -j ACCEPT
+        sudo iptables -t filter -I OUTPUT -p icmp -d 172.16.82.112 -j ACCEPT
+        
+
+        to see line numbers to replace -
+        sudo iptables -L --line-numbers
+        
+
+        
+        
+        
+
+
+        
+
+        
+        
+       
+
+    
+
        
 
       
