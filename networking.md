@@ -2666,6 +2666,57 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
      iptables -t mangle -A POSTROUTING -o eth0 -j TTL --ttl-set 128
      iptables -t mangle -A POSTROUTING -o eth0 -j DSCP --set-dscp 26
 
+
+ ## understand network based filtering
+
+   **INTERPRET CISCO ACCESS CONTROL LIST (ACL)**
+   ![image](https://github.com/robertjenkins2828/Networking/assets/163066736/e0613462-b251-4709-9c29-79e25460180d)
+
+       extended: closest to the source
+       standard: closest to the destination
+
+       **CONSTRUCT ADVANCED IDS (SNORT) RULES**
+       Installation Directory
+       /etc/snort
+
+       Configuration File
+       /etc/snort/snort.conf
+       
+       Rules Directory
+       /etc/snort/rules
+
+       Rule naming
+       [name].rules
+       
+       Default Log Directory
+       /var/log/snort
+
+       sudo snort -D -l /var/log/snort -c /etc/snort/snort.conf (runs snort in the background)
+       (-l specifies log directory, -c specifies config file) 
+
+       Common line switches
+       -D - to run snort as a daemon
+       -c - to specify a configuration file when running snort
+       -l - specify a log directory
+       -r - to have snort read a pcap file
+
+       /var/log/snort$ sudo tcpdump -r snort.log.1715003090 -vnXX -c 5 (using tcpdump to read snort log)
+       
+
+       
+       
+
+       
+       
+
+      
+   
+
+   
+     
+
+  
+
      
      
      
