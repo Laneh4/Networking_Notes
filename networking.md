@@ -2694,6 +2694,21 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
        sudo snort -D -l /var/log/snort -c /etc/snort/snort.conf (runs snort in the background)
        (-l specifies log directory, -c specifies config file) 
 
+       **To run snort against a PCAP**
+       sudo snort -c /etc/snort/rules/file.rules -r file.pcap
+
+       **SNORT IDS/IPS RULE - HEADER**
+       [action] [protocol] [s.ip] [s.port] [direction] [d.ip] [d.port] ( match conditions ;)
+       * Action - alert, log, pass, drop, or reject
+       * Protocol - TCP, UDP, ICMP, or IP
+       * Source IP address - one IP, network, [IP range], or any
+       * Source Port - one, [multiple], any, or [range of ports]
+       * Direction - source to destination or both
+       * Destination IP address - one IP, network, [IP range], or any
+       * Destination port - one, [multiple], any, or [range of ports]
+       
+        
+
        Common line switches
        -D - to run snort as a daemon
        -c - to specify a configuration file when running snort
@@ -2701,7 +2716,27 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
        -r - to have snort read a pcap file
 
        /var/log/snort$ sudo tcpdump -r snort.log.1715003090 -vnXX -c 5 (using tcpdump to read snort log)
+
+       **snort examples**
+       alert icmp any any -> any any (msg:"This is our test ping alert"; sid:9000020; content:"IDSRuleCheck"; rev:1;)
+
+
+
+  ## IDS / IPS PERFORMANCE
+INSERTION ATTACK
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/9847665f-af57-4189-b1f7-2948f6e52ec9)
+
+EVASION ATTACK
+![image](https://github.com/robertjenkins2828/Networking/assets/163066736/89aa6536-1efa-4316-a209-83ad38a032be)
+
+
+
+
+
+     
+
        
+
 
        
        
