@@ -1305,7 +1305,7 @@ https://net.cybbh.io/public/networking/latest/06_traffic_cap/fg.html
        s.send(decoded_msg) **put all this at the end of the encoded msg**
       
       
-  ## Service and Network discovery FG
+  # Service and Network discovery FG
 https://net.cybbh.io/public/networking/latest/07_discovery/fg.html
 
        
