@@ -1,4 +1,4 @@
- ## Day 1 networking
+ # Day 1 networking
 
     https://net.cybbh.io/public/networking/latest/index.html
     https://miro.com/app/board/o9J_klSqCSY=/
