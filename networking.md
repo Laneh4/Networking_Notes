@@ -311,7 +311,7 @@
       Static CAM entries - Static CAM (Content Addressable Memory) entries refer to manually configured entries in the CAM table of Ethernet switches. These entries map specific MAC addresses to specific switch ports and are used to optimize network performance and facilitate specific network configurations.
       Static ARP entries - Static ARP (Address Resolution Protocol) entries are manually configured mappings between IP addresses and MAC addresses in the ARP table of network devices. These entries are used to ensure stable communication between specific devices on the network.
 
-  ## DESCRIBE IP NETWORKING
+  # DESCRIBE IP NETWORKING
 
       Network layer 
        - addressing schemes for network (logical addressing)
