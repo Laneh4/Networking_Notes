@@ -1642,7 +1642,7 @@ https://net.cybbh.io/public/networking/latest/07_discovery/fg.html
      permissions: sudo -l
      
 
-## File Transfer and redirection
+# File Transfer and redirection
 https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
 
     DESCRIBE COMMON METHODS FOR TRANSFERRING DATA
