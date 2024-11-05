@@ -1971,7 +1971,12 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
     HyDEn
     Spammimic
 
-
+## SSH TUNNELS
+    **host>** user@IP -L **bind port:**tgt IP:tgt port -NT
+    **host>** user@IP -L bind port:**tgt IP:tgt port** -NT
+    **host>** user@IP -D **9050**
+        
+    
 
   ## SSH LOCAL PORT FORWARDING
 
