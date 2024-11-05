@@ -1975,6 +1975,8 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
     **host>** user@IP -L **bind port:**tgt IP:tgt port -NT
     **host>** user@IP -L bind port:**tgt IP:tgt port** -NT
     **host>** user@IP -D **9050**
+
+    scp -p <port(host to target)> user@loopback:source/file destination/file 
     
     ## Steps
         1. Port Scan
@@ -1982,14 +1984,25 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
             nc host1 <tgt port>
         3. SSH to target
         4. Enumerate host
-        5. Create dynamic port forward
-            host> ssh user@host1 -D 9050 -NT
-            Map port forward
+        5. Create dynamic port forward to host1
+            ssh user@host1(ext) -D 9050 -NT
         6. Get content from web server
             proxychains wget -r <loopback>
         7. Scan next host 
             proxychains nmap -Pn -T4 -v <host2> -p 21-30,80
         8. Banner grab host2
+        9. Get any content from host2 servers
+        10. Remote port forward from host2 to host1
+            ssh user@host1(int) -R port1:loopback:23 -NT
+            map port forward
+        11. Create local port forward on host to host1 port1
+            ssh user@host1(ext) -L port2:loopback:port1 -NT
+            map port forward
+        12. telnet to host2
+            telnet user@loopback port1
+        13. port forward to host3
+            ssh user@loopback -p port2 -L port3:host3:23 -NT
+        
         
     
 
