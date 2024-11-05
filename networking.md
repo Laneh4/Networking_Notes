@@ -1971,10 +1971,25 @@ https://net.cybbh.io/public/networking/latest/09_file_transfer/fg.html
     HyDEn
     Spammimic
 
-## SSH TUNNELS
+# SSH TUNNELS
     **host>** user@IP -L **bind port:**tgt IP:tgt port -NT
     **host>** user@IP -L bind port:**tgt IP:tgt port** -NT
     **host>** user@IP -D **9050**
+    
+    ## Steps
+        1. Port Scan
+        2. Banner grab open ports
+            nc host1 <tgt port>
+        3. SSH to target
+        4. Enumerate host
+        5. Create dynamic port forward
+            host> ssh user@host1 -D 9050 -NT
+            Map port forward
+        6. Get content from web server
+            proxychains wget -r <loopback>
+        7. Scan next host 
+            proxychains nmap -Pn -T4 -v <host2> -p 21-30,80
+        8. Banner grab host2
         
     
 
