@@ -42,5 +42,12 @@ Internet Host
   Recreate dynamic port
   ssh Beth@127.0.0.1 -p 50402 -D 9050 -NT
 proxychains nc 127.0.0.1 <port> (to find flag)
-  
+
+
+Remote port forward for internal device 
+Box 4 to Box 3 - ssh Kyle@172.20.21.4 -p 6481 -R 50498:127.0.0.1:22 -NT
+Internet Host - ssh Kyle@127.0.0.1 -p 50401 -L 50403:127.0.0.1:50498 -NT
+
+
+
   
