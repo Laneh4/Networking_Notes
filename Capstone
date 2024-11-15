@@ -1,0 +1,148 @@
+10.50.20.84
+capstone1
+22,80
+eth0-10.1.1.30
+route-10.1.1.126
+80=hint-01a
+	This is a pivot for Net Fundamentals and Programming
+
+10.1.1.11
+capstone2
+21,23
+21=hint-02a
+	Webservice on port 1918
+21=hint-02b
+	Pcap on this system
+q1-5735
+q2-FF02::2
+q3-RESPONSE or GRATUITOUS
+q4-VLAN HOPPING
+q5-184
+
+
+10.1.1.25
+capstone3
+21
+21=hint-03a
+	Webservice on port 791
+21=hint03b
+	Hint in student home drive 
+q1=KERNEL
+q2=binascii
+q3=BBHHHBBH4s4s
+q4=UTF-8
+q5=PSEUDO
+
+
+10.1.1.33
+capstone4
+21,23,80
+eth0-10.1.1.33
+eth1-1.1.1.1
+80=hint-04b
+	RIPv2 on 10.1.1.0/25, sniff traffic to find next IP
+21=hint-04a
+	Capstone-05 on different network only this system can see, port for W32/Blaster
+
+
+10.50.21.126
+capstone6
+80,7777(ssh)
+eth0-10.2.2.6
+80-hint-06a
+	ssh on high port, use iptables
+
+
+10.2.2.7
+capstone7
+eth0-10.2.2.7
+eth1-10.10.10.129
+23,80
+user:netN_comradeX
+pass:H0ld 73h d00r?
+
+
+10.10.10.140
+capstone8
+eth0-10.10.10.140
+eth1-192.168.10.44
+21
+hint-08a
+	ssh port on 301
+hint-08b
+	this system is pivot for Recon section
+	
+192.168.10.39
+capstone9
+21
+hint-09a
+	http on port 3790???
+q1=ACTIVE INTERNAL
+q2=RST
+q3=WHOIS
+q4=IDLE
+q5=nc 10.1.0.1 1111
+
+
+10.10.10.167
+capstone10
+80
+hint-10a
+	ssh port on 404
+hint-10b
+	This system is pivot for move and redirect section
+
+
+192.168.10.80
+capstone11
+21
+hint-11a
+	http on port 9050
+q1=D
+q2=A
+q3=ASYMMETRIC
+q4=proxychains scp tgt@192.168.1.10:/home/tgt/secret.txt .
+q5=SFTP
+
+
+10.10.10.182
+capstone12
+21
+hint-12a
+	ssh port on 504
+hint-12b
+	this system is pivot for NA and Filtering section
+
+
+192.168.10.101
+capstone13
+21,22
+hint-13a
+	http on 584
+hint-13b
+	hex encoded pcap in the share folder decode with xxdand open in wireshark
+q1=CONVERSATIONS
+q2=NETFLOW
+q3=TAP
+q4=COMPROMISE
+q5=METAMORPHIC
+
+
+192.168.10.111
+capstone14
+21,22
+hint-14a
+	http on 100-199 or 2000-2699(2223)
+hint-14b
+	look into snort file locations
+
+192.168.10.106 ---- NO PORTS
+192.168.10.74 ----- NO PORTS
+192.168.10.35 ----- NO PORTS
+192.168.10.62 ----- ROUTER
+10.10.10.181 ------ NO PORTS
+10.10.10.254 ------ ROUTER
+10.2.2.14 ----- ROUTER
+10.2.2.4 ------ NO PORTS
+
+
